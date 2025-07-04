@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 
 // Button Component with our unique design philosophy
 const Button = ({ 
@@ -54,6 +54,406 @@ const Button = ({
     >
       {children}
     </button>
+  )
+}
+
+// Liquid Transition Component
+const LiquidButton = ({ children, onClick }: { children: React.ReactNode, onClick?: () => void }) => {
+  const [isHovered, setIsHovered] = useState(false)
+  const [isPressed, setIsPressed] = useState(false)
+  
+  return (
+    <button
+      className="relative px-8 py-4 text-white font-medium text-lg rounded-3xl overflow-hidden cursor-pointer border-none focus:outline-none"
+      style={{
+        background: `linear-gradient(135deg, #78866B, #8F9779)`,
+        transition: 'all 0.6s cubic-bezier(0.23, 1, 0.32, 1)',
+        transform: isPressed ? 'scale(0.95)' : isHovered ? 'scale(1.05)' : 'scale(1)',
+        boxShadow: isHovered ? '0 20px 40px rgba(120, 134, 107, 0.3)' : '0 10px 20px rgba(120, 134, 107, 0.2)',
+        borderRadius: isHovered ? '2rem' : '1.5rem'
+      }}
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
+      onMouseDown={() => setIsPressed(true)}
+      onMouseUp={() => setIsPressed(false)}
+      onClick={onClick}
+    >
+      <div 
+        className="absolute inset-0 opacity-20"
+        style={{
+          background: `radial-gradient(circle at ${isHovered ? '60% 40%' : '30% 70%'}, rgba(255,255,255,0.3) 0%, transparent 70%)`,
+          transition: 'all 0.8s ease-out'
+        }}
+      />
+      <span className="relative z-10">{children}</span>
+    </button>
+  )
+}
+
+// Wind Effect Component
+const WindyCard = ({ children }: { children: React.ReactNode }) => {
+  const [windPhase, setWindPhase] = useState(0)
+  
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setWindPhase(prev => (prev + 1) % 360)
+    }, 50)
+    return () => clearInterval(interval)
+  }, [])
+  
+  const windX = Math.sin(windPhase * 0.02) * 2
+  const windY = Math.cos(windPhase * 0.015) * 1
+  const windRotation = Math.sin(windPhase * 0.01) * 0.5
+  
+  return (
+    <div
+      className="p-6 rounded-3xl shadow-lg border relative"
+      style={{
+        backgroundColor: '#FDFBF8',
+        borderColor: '#F8F2E6',
+        transform: `translate(${windX}px, ${windY}px) rotate(${windRotation}deg)`,
+        transition: 'transform 0.1s ease-out'
+      }}
+    >
+      {children}
+    </div>
+  )
+}
+
+// Irregular Shape Component
+const IrregularShape = ({ children }: { children: React.ReactNode }) => {
+  return (
+    <div className="relative p-8 text-center">
+      <div
+        className="absolute inset-0"
+        style={{
+          background: 'linear-gradient(135deg, #BDC9BB, #ACBAA1)',
+          clipPath: 'polygon(25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%, 0% 50%)',
+          transition: 'all 0.3s ease-out'
+        }}
+      />
+      <div className="relative z-10 text-white font-medium">
+        {children}
+      </div>
+    </div>
+  )
+}
+
+// Vine-like Connector Component
+const VineConnector = () => {
+  return (
+    <div className="relative w-full h-24 flex items-center justify-center">
+      <svg width="200" height="80" viewBox="0 0 200 80" className="absolute">
+        <path
+          d="M0 40 Q50 10, 100 40 T200 40"
+          stroke="#8F9779"
+          strokeWidth="3"
+          fill="none"
+          strokeDasharray="5,5"
+          className="animate-pulse"
+        />
+        <circle cx="20" cy="30" r="4" fill="#ACBAA1" className="animate-bounce" />
+        <circle cx="100" cy="40" r="4" fill="#78866B" className="animate-bounce" style={{ animationDelay: '0.2s' }} />
+        <circle cx="180" cy="30" r="4" fill="#ACBAA1" className="animate-bounce" style={{ animationDelay: '0.4s' }} />
+      </svg>
+    </div>
+  )
+}
+
+// Gesture Card Component
+const GestureCard = ({ children }: { children: React.ReactNode }) => {
+  const [dragOffset, setDragOffset] = useState({ x: 0, y: 0 })
+  const [isDragging, setIsDragging] = useState(false)
+  const [isFlipped, setIsFlipped] = useState(false)
+  const cardRef = useRef<HTMLDivElement>(null)
+  
+  const handleMouseDown = (e: React.MouseEvent) => {
+    setIsDragging(true)
+    const rect = cardRef.current?.getBoundingClientRect()
+    if (rect) {
+      setDragOffset({
+        x: e.clientX - rect.left - rect.width / 2,
+        y: e.clientY - rect.top - rect.height / 2
+      })
+    }
+  }
+  
+  const handleMouseMove = (e: React.MouseEvent) => {
+    if (!isDragging) return
+    const rect = cardRef.current?.getBoundingClientRect()
+    if (rect) {
+      const newX = e.clientX - rect.left - rect.width / 2
+      const newY = e.clientY - rect.top - rect.height / 2
+      setDragOffset({ x: newX, y: newY })
+      
+      // Flip card if dragged far enough
+      if (Math.abs(newX) > 100) {
+        setIsFlipped(true)
+      }
+    }
+  }
+  
+  const handleMouseUp = () => {
+    setIsDragging(false)
+    setDragOffset({ x: 0, y: 0 })
+    setTimeout(() => setIsFlipped(false), 2000) // Reset flip after 2 seconds
+  }
+  
+  return (
+    <div
+      ref={cardRef}
+      className="w-64 h-40 cursor-grab active:cursor-grabbing relative perspective-1000"
+      onMouseDown={handleMouseDown}
+      onMouseMove={handleMouseMove}
+      onMouseUp={handleMouseUp}
+      onMouseLeave={handleMouseUp}
+    >
+      <div
+        className={`w-full h-full rounded-2xl shadow-xl transition-all duration-300 preserve-3d ${isFlipped ? 'rotate-y-180' : ''}`}
+        style={{
+          transform: `translate(${dragOffset.x * 0.1}px, ${dragOffset.y * 0.1}px) rotateX(${dragOffset.y * 0.1}deg) rotateY(${dragOffset.x * 0.1}deg)`,
+          transition: isDragging ? 'none' : 'transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94)',
+          backgroundColor: '#F8F2E6',
+          border: '1px solid #F3ECE0'
+        }}
+      >
+        <div className="absolute inset-0 p-6 flex items-center justify-center backface-hidden">
+          <div style={{ color: '#4D5D53' }}>{children}</div>
+        </div>
+        <div className="absolute inset-0 p-6 flex items-center justify-center backface-hidden rotate-y-180 rounded-2xl" style={{ backgroundColor: '#BDC9BB' }}>
+          <div style={{ color: '#4D5D53' }}>Card Flipped! 🌿</div>
+        </div>
+      </div>
+    </div>
+  )
+}
+
+// Pressure-Sensitive Button
+const PressureButton = ({ children, onPressComplete }: { children: React.ReactNode, onPressComplete?: () => void }) => {
+  const [pressTime, setPressTime] = useState(0)
+  const [isPressed, setIsPressed] = useState(false)
+  const [isComplete, setIsComplete] = useState(false)
+  const pressInterval = useRef<number>()
+  
+  const handleMouseDown = () => {
+    setIsPressed(true)
+    setIsComplete(false)
+    setPressTime(0)
+    
+    pressInterval.current = setInterval(() => {
+      setPressTime(prev => {
+        const newTime = prev + 10
+        if (newTime >= 2000) {
+          setIsComplete(true)
+          if (onPressComplete) {
+            onPressComplete()
+          }
+          if (pressInterval.current) {
+            clearInterval(pressInterval.current)
+          }
+        }
+        return newTime
+      })
+    }, 10)
+  }
+  
+  const handleMouseUp = () => {
+    setIsPressed(false)
+    if (pressInterval.current) {
+      clearInterval(pressInterval.current)
+    }
+    if (!isComplete) {
+      setPressTime(0)
+    }
+  }
+  
+  const progress = Math.min(pressTime / 2000, 1)
+  
+  return (
+    <button
+      className="relative px-8 py-4 rounded-2xl font-medium text-lg overflow-hidden focus:outline-none"
+      style={{
+        backgroundColor: isComplete ? '#78866B' : '#BDC9BB',
+        color: isComplete ? 'white' : '#4D5D53',
+        transform: `scale(${isPressed ? 0.95 : 1})`,
+        transition: 'all 0.2s ease-out'
+      }}
+      onMouseDown={handleMouseDown}
+      onMouseUp={handleMouseUp}
+      onMouseLeave={handleMouseUp}
+    >
+      <div
+        className="absolute inset-0 transition-all duration-75"
+        style={{
+          background: `linear-gradient(to right, #78866B ${progress * 100}%, transparent ${progress * 100}%)`,
+          opacity: 0.3
+        }}
+      />
+      <span className="relative z-10">
+        {isComplete ? '✓ Complete!' : `${children} (${Math.round(progress * 100)}%)`}
+      </span>
+    </button>
+  )
+}
+
+// Magnetic Snap Component
+const MagneticSnap = () => {
+  const [draggedItem, setDraggedItem] = useState<string | null>(null)
+  const [snapTargets, setSnapTargets] = useState<{[key: string]: boolean}>({})
+  const [positions, setPositions] = useState<{[key: string]: {x: number, y: number}}>({
+    item1: { x: 50, y: 50 },
+    item2: { x: 150, y: 50 },
+    item3: { x: 250, y: 50 }
+  })
+  
+  const snapZones = [
+    { id: 'zone1', x: 75, y: 150, width: 60, height: 60 },
+    { id: 'zone2', x: 175, y: 150, width: 60, height: 60 },
+    { id: 'zone3', x: 275, y: 150, width: 60, height: 60 }
+  ]
+  
+  const handleDrag = (itemId: string, e: React.MouseEvent) => {
+    if (draggedItem !== itemId) return
+    
+    const rect = e.currentTarget.parentElement?.getBoundingClientRect()
+    if (!rect) return
+    
+    const x = e.clientX - rect.left - 15
+    const y = e.clientY - rect.top - 15
+    
+    setPositions(prev => ({ ...prev, [itemId]: { x, y } }))
+    
+    // Check for snap zones
+    const newSnapTargets: {[key: string]: boolean} = {}
+    snapZones.forEach(zone => {
+      const distance = Math.sqrt(Math.pow(x - zone.x, 2) + Math.pow(y - zone.y, 2))
+      newSnapTargets[zone.id] = distance < 40
+    })
+    setSnapTargets(newSnapTargets)
+  }
+  
+  const handleDragEnd = (itemId: string) => {
+    setDraggedItem(null)
+    
+    // Snap to nearest zone if close enough
+    let snapped = false
+    snapZones.forEach(zone => {
+      const pos = positions[itemId]
+      const distance = Math.sqrt(Math.pow(pos.x - zone.x, 2) + Math.pow(pos.y - zone.y, 2))
+      if (distance < 40) {
+        setPositions(prev => ({ ...prev, [itemId]: { x: zone.x, y: zone.y } }))
+        snapped = true
+      }
+    })
+    
+    setSnapTargets({})
+  }
+  
+  return (
+    <div className="relative w-full h-64 rounded-2xl border-2 border-dashed" style={{ borderColor: '#E8ECDE', backgroundColor: '#FDFBF8' }}>
+      {/* Snap Zones */}
+      {snapZones.map(zone => (
+        <div
+          key={zone.id}
+          className="absolute rounded-xl border-2 transition-all duration-200"
+          style={{
+            left: zone.x,
+            top: zone.y,
+            width: zone.width,
+            height: zone.height,
+            borderColor: snapTargets[zone.id] ? '#78866B' : '#E8ECDE',
+            backgroundColor: snapTargets[zone.id] ? '#F4F6F2' : 'transparent'
+          }}
+        />
+      ))}
+      
+      {/* Draggable Items */}
+      {Object.entries(positions).map(([itemId, pos]) => (
+        <div
+          key={itemId}
+          className="absolute w-8 h-8 rounded-full cursor-grab active:cursor-grabbing transition-all duration-200"
+          style={{
+            left: pos.x,
+            top: pos.y,
+            backgroundColor: '#8F9779',
+            transform: draggedItem === itemId ? 'scale(1.2)' : 'scale(1)',
+            zIndex: draggedItem === itemId ? 10 : 1
+          }}
+          onMouseDown={() => setDraggedItem(itemId)}
+          onMouseMove={(e) => handleDrag(itemId, e)}
+          onMouseUp={() => handleDragEnd(itemId)}
+        />
+      ))}
+    </div>
+  )
+}
+
+// Elastic Feedback Component
+const ElasticButton = ({ children, onClick }: { children: React.ReactNode, onClick?: () => void }) => {
+  const [isClicked, setIsClicked] = useState(false)
+  
+  const handleClick = () => {
+    setIsClicked(true)
+    setTimeout(() => setIsClicked(false), 600)
+    if (onClick) {
+      onClick()
+    }
+  }
+  
+  return (
+    <button
+      className="px-8 py-4 rounded-2xl font-medium text-lg focus:outline-none"
+      style={{
+        backgroundColor: '#BDC9BB',
+        color: '#4D5D53',
+        transform: isClicked ? 'scale(0.9)' : 'scale(1)',
+        transition: 'transform 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55)',
+        boxShadow: isClicked ? '0 5px 15px rgba(189, 201, 187, 0.4)' : '0 10px 25px rgba(189, 201, 187, 0.3)'
+      }}
+      onClick={handleClick}
+    >
+      {children}
+    </button>
+  )
+}
+
+// Time-Aware Component
+const TimeAwareGreeting = () => {
+  const [currentTime, setCurrentTime] = useState(new Date())
+  
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setCurrentTime(new Date())
+    }, 1000)
+    return () => clearInterval(timer)
+  }, [])
+  
+  const hour = currentTime.getHours()
+  const getGreeting = () => {
+    if (hour < 12) return { text: 'Good Morning', color: '#EED8AE', bg: '#FDFBF8' }
+    if (hour < 17) return { text: 'Good Afternoon', color: '#8F9779', bg: '#F4F6F2' }
+    return { text: 'Good Evening', color: '#78866B', bg: '#E8ECDE' }
+  }
+  
+  const greeting = getGreeting()
+  
+  return (
+    <div
+      className="p-6 rounded-3xl shadow-lg border transition-all duration-1000"
+      style={{
+        backgroundColor: greeting.bg,
+        borderColor: '#F3ECE0'
+      }}
+    >
+      <div className="text-center">
+        <h3 className="text-2xl font-semibold mb-2" style={{ color: greeting.color }}>
+          {greeting.text}
+        </h3>
+        <p style={{ color: '#6B7A5E' }}>
+          {currentTime.toLocaleTimeString()}
+        </p>
+      </div>
+    </div>
   )
 }
 
@@ -242,6 +642,166 @@ function App() {
               <p style={{ color: '#6B7A5E' }}>Subtle, organic animations that respond naturally to user input.</p>
             </div>
           </div>
+        </div>
+
+        {/* NEW: Unique Interaction Components */}
+        <div className="mb-16">
+          <h2 className="text-3xl font-semibold mb-8 text-center" style={{ color: '#4D5D53' }}>
+            Unique Interaction Components
+          </h2>
+          
+          {/* Liquid Transitions */}
+          <div className="mb-12">
+            <h3 className="text-2xl font-semibold mb-6" style={{ color: '#4D5D53' }}>
+              Liquid Transitions
+            </h3>
+            <div className="p-8 rounded-3xl shadow-lg border" style={{ backgroundColor: '#FDFBF8', borderColor: '#F8F2E6' }}>
+              <div className="flex flex-wrap gap-6 items-center justify-center">
+                <LiquidButton onClick={() => alert('Liquid button clicked! Notice the morphing effect.')}>
+                  Liquid Button
+                </LiquidButton>
+                <div className="text-center">
+                  <p style={{ color: '#6B7A5E' }}>Hover and click to experience the liquid morphing animation</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Wind Effects */}
+          <div className="mb-12">
+            <h3 className="text-2xl font-semibold mb-6" style={{ color: '#4D5D53' }}>
+              Wind Effects
+            </h3>
+            <div className="p-8 rounded-3xl shadow-lg border" style={{ backgroundColor: '#FDFBF8', borderColor: '#F8F2E6' }}>
+              <div className="flex flex-wrap gap-6 items-center justify-center">
+                <WindyCard>
+                  <div className="text-center">
+                    <h4 className="text-lg font-semibold mb-2" style={{ color: '#4D5D53' }}>Gentle Breeze</h4>
+                    <p style={{ color: '#6B7A5E' }}>This card sways naturally like leaves in the wind</p>
+                  </div>
+                </WindyCard>
+                <WindyCard>
+                  <div className="text-center">
+                    <h4 className="text-lg font-semibold mb-2" style={{ color: '#4D5D53' }}>Organic Motion</h4>
+                    <p style={{ color: '#6B7A5E' }}>Continuous, subtle movement creates life</p>
+                  </div>
+                </WindyCard>
+              </div>
+            </div>
+          </div>
+
+          {/* Irregular Shapes */}
+          <div className="mb-12">
+            <h3 className="text-2xl font-semibold mb-6" style={{ color: '#4D5D53' }}>
+              Irregular Shapes
+            </h3>
+            <div className="p-8 rounded-3xl shadow-lg border" style={{ backgroundColor: '#FDFBF8', borderColor: '#F8F2E6' }}>
+              <div className="flex flex-wrap gap-6 items-center justify-center">
+                <IrregularShape>
+                  <div>Hexagon Shape</div>
+                </IrregularShape>
+                <div className="text-center">
+                  <p style={{ color: '#6B7A5E' }}>Organic, non-geometric shapes create visual interest</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Vine-like Connectors */}
+          <div className="mb-12">
+            <h3 className="text-2xl font-semibold mb-6" style={{ color: '#4D5D53' }}>
+              Vine-like Connectors
+            </h3>
+            <div className="p-8 rounded-3xl shadow-lg border" style={{ backgroundColor: '#FDFBF8', borderColor: '#F8F2E6' }}>
+              <VineConnector />
+              <div className="text-center mt-4">
+                <p style={{ color: '#6B7A5E' }}>Organic curves connect elements naturally</p>
+              </div>
+            </div>
+          </div>
+
+          {/* Time-Aware UI */}
+          <div className="mb-12">
+            <h3 className="text-2xl font-semibold mb-6" style={{ color: '#4D5D53' }}>
+              Time-Aware UI
+            </h3>
+            <div className="p-8 rounded-3xl shadow-lg border" style={{ backgroundColor: '#FDFBF8', borderColor: '#F8F2E6' }}>
+              <div className="flex justify-center">
+                <TimeAwareGreeting />
+              </div>
+              <div className="text-center mt-4">
+                <p style={{ color: '#6B7A5E' }}>Components adapt their appearance based on time of day</p>
+              </div>
+            </div>
+          </div>
+
+          {/* Gesture Cards */}
+          <div className="mb-12">
+            <h3 className="text-2xl font-semibold mb-6" style={{ color: '#4D5D53' }}>
+              Gesture Cards
+            </h3>
+            <div className="p-8 rounded-3xl shadow-lg border" style={{ backgroundColor: '#FDFBF8', borderColor: '#F8F2E6' }}>
+              <div className="flex justify-center">
+                <GestureCard>
+                  <div className="text-center">
+                    <h4 className="text-lg font-semibold mb-2">Swipe Me!</h4>
+                    <p>Drag to experience journal-like page turning</p>
+                  </div>
+                </GestureCard>
+              </div>
+              <div className="text-center mt-4">
+                <p style={{ color: '#6B7A5E' }}>Drag the card to experience 3D rotation and flipping</p>
+              </div>
+            </div>
+          </div>
+
+          {/* Pressure-Sensitive Buttons */}
+          <div className="mb-12">
+            <h3 className="text-2xl font-semibold mb-6" style={{ color: '#4D5D53' }}>
+              Pressure-Sensitive Buttons
+            </h3>
+            <div className="p-8 rounded-3xl shadow-lg border" style={{ backgroundColor: '#FDFBF8', borderColor: '#F8F2E6' }}>
+              <div className="flex justify-center">
+                <PressureButton onPressComplete={() => alert('Pressure action completed!')}>
+                  Hold Me
+                </PressureButton>
+              </div>
+              <div className="text-center mt-4">
+                <p style={{ color: '#6B7A5E' }}>Hold the button for 2 seconds to complete the action</p>
+              </div>
+            </div>
+          </div>
+
+          {/* Magnetic Snap */}
+          <div className="mb-12">
+            <h3 className="text-2xl font-semibold mb-6" style={{ color: '#4D5D53' }}>
+              Magnetic Snap
+            </h3>
+            <div className="p-8 rounded-3xl shadow-lg border" style={{ backgroundColor: '#FDFBF8', borderColor: '#F8F2E6' }}>
+              <MagneticSnap />
+              <div className="text-center mt-4">
+                <p style={{ color: '#6B7A5E' }}>Drag the circles near the snap zones to feel the magnetic effect</p>
+              </div>
+            </div>
+          </div>
+
+          {/* Elastic Feedback */}
+          <div className="mb-12">
+            <h3 className="text-2xl font-semibold mb-6" style={{ color: '#4D5D53' }}>
+              Elastic Feedback
+            </h3>
+            <div className="p-8 rounded-3xl shadow-lg border" style={{ backgroundColor: '#FDFBF8', borderColor: '#F8F2E6' }}>
+              <div className="flex justify-center">
+                <ElasticButton onClick={() => alert('Elastic button clicked! Feel the bounce!')}>
+                  Elastic Button
+                </ElasticButton>
+              </div>
+              <div className="text-center mt-4">
+                <p style={{ color: '#6B7A5E' }}>Click to experience satisfying bounce-back animation</p>
+              </div>
+            </div>
+          </div>
+
         </div>
 
         {/* Color Palette */}
