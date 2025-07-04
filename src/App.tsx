@@ -90,51 +90,46 @@ const LiquidButton = ({ children, onClick }: { children: React.ReactNode, onClic
   )
 }
 
-// Wind Effect Component
+// Fixed Wind Effect Component
 const WindyCard = ({ children }: { children: React.ReactNode }) => {
-  const [windPhase, setWindPhase] = useState(0)
+  const [windTransform, setWindTransform] = useState({ x: 0, y: 0, rotation: 0 })
   
   useEffect(() => {
-    const interval = setInterval(() => {
-      setWindPhase(prev => (prev + 1) % 360)
-    }, 50)
-    return () => clearInterval(interval)
+    let animationFrame: number
+    let startTime = Date.now()
+    
+    const animate = () => {
+      const elapsed = (Date.now() - startTime) / 1000 // Convert to seconds
+      
+      const windX = Math.sin(elapsed * 0.8) * 3 // Gentle horizontal sway
+      const windY = Math.cos(elapsed * 0.6) * 1.5 // Subtle vertical movement
+      const windRotation = Math.sin(elapsed * 0.4) * 1 // Very gentle rotation
+      
+      setWindTransform({ x: windX, y: windY, rotation: windRotation })
+      
+      animationFrame = requestAnimationFrame(animate)
+    }
+    
+    animate()
+    
+    return () => {
+      if (animationFrame) {
+        cancelAnimationFrame(animationFrame)
+      }
+    }
   }, [])
-  
-  const windX = Math.sin(windPhase * 0.02) * 2
-  const windY = Math.cos(windPhase * 0.015) * 1
-  const windRotation = Math.sin(windPhase * 0.01) * 0.5
   
   return (
     <div
-      className="p-6 rounded-3xl shadow-lg border relative"
+      className="p-6 rounded-3xl shadow-lg border relative will-change-transform"
       style={{
         backgroundColor: '#FDFBF8',
         borderColor: '#F8F2E6',
-        transform: `translate(${windX}px, ${windY}px) rotate(${windRotation}deg)`,
-        transition: 'transform 0.1s ease-out'
+        transform: `translate3d(${windTransform.x}px, ${windTransform.y}px, 0) rotate(${windTransform.rotation}deg)`,
+        transition: 'none' // Remove transition for smooth animation
       }}
     >
       {children}
-    </div>
-  )
-}
-
-// Irregular Shape Component
-const IrregularShape = ({ children }: { children: React.ReactNode }) => {
-  return (
-    <div className="relative p-8 text-center">
-      <div
-        className="absolute inset-0"
-        style={{
-          background: 'linear-gradient(135deg, #BDC9BB, #ACBAA1)',
-          clipPath: 'polygon(25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%, 0% 50%)',
-          transition: 'all 0.3s ease-out'
-        }}
-      />
-      <div className="relative z-10 text-white font-medium">
-        {children}
-      </div>
     </div>
   )
 }
@@ -296,124 +291,55 @@ const PressureButton = ({ children, onPressComplete }: { children: React.ReactNo
   )
 }
 
-// Magnetic Snap Component
-const MagneticSnap = () => {
-  const [draggedItem, setDraggedItem] = useState<string | null>(null)
-  const [snapTargets, setSnapTargets] = useState<{[key: string]: boolean}>({})
-  const [positions, setPositions] = useState<{[key: string]: {x: number, y: number}}>({
-    item1: { x: 50, y: 50 },
-    item2: { x: 150, y: 50 },
-    item3: { x: 250, y: 50 }
-  })
-  
-  const snapZones = [
-    { id: 'zone1', x: 75, y: 150, width: 60, height: 60 },
-    { id: 'zone2', x: 175, y: 150, width: 60, height: 60 },
-    { id: 'zone3', x: 275, y: 150, width: 60, height: 60 }
-  ]
-  
-  const handleDrag = (itemId: string, e: React.MouseEvent) => {
-    if (draggedItem !== itemId) return
-    
-    const rect = e.currentTarget.parentElement?.getBoundingClientRect()
-    if (!rect) return
-    
-    const x = e.clientX - rect.left - 15
-    const y = e.clientY - rect.top - 15
-    
-    setPositions(prev => ({ ...prev, [itemId]: { x, y } }))
-    
-    // Check for snap zones
-    const newSnapTargets: {[key: string]: boolean} = {}
-    snapZones.forEach(zone => {
-      const distance = Math.sqrt(Math.pow(x - zone.x, 2) + Math.pow(y - zone.y, 2))
-      newSnapTargets[zone.id] = distance < 40
-    })
-    setSnapTargets(newSnapTargets)
-  }
-  
-  const handleDragEnd = (itemId: string) => {
-    setDraggedItem(null)
-    
-    // Snap to nearest zone if close enough
-    let snapped = false
-    snapZones.forEach(zone => {
-      const pos = positions[itemId]
-      const distance = Math.sqrt(Math.pow(pos.x - zone.x, 2) + Math.pow(pos.y - zone.y, 2))
-      if (distance < 40) {
-        setPositions(prev => ({ ...prev, [itemId]: { x: zone.x, y: zone.y } }))
-        snapped = true
-      }
-    })
-    
-    setSnapTargets({})
-  }
-  
-  return (
-    <div className="relative w-full h-64 rounded-2xl border-2 border-dashed" style={{ borderColor: '#E8ECDE', backgroundColor: '#FDFBF8' }}>
-      {/* Snap Zones */}
-      {snapZones.map(zone => (
-        <div
-          key={zone.id}
-          className="absolute rounded-xl border-2 transition-all duration-200"
-          style={{
-            left: zone.x,
-            top: zone.y,
-            width: zone.width,
-            height: zone.height,
-            borderColor: snapTargets[zone.id] ? '#78866B' : '#E8ECDE',
-            backgroundColor: snapTargets[zone.id] ? '#F4F6F2' : 'transparent'
-          }}
-        />
-      ))}
-      
-      {/* Draggable Items */}
-      {Object.entries(positions).map(([itemId, pos]) => (
-        <div
-          key={itemId}
-          className="absolute w-8 h-8 rounded-full cursor-grab active:cursor-grabbing transition-all duration-200"
-          style={{
-            left: pos.x,
-            top: pos.y,
-            backgroundColor: '#8F9779',
-            transform: draggedItem === itemId ? 'scale(1.2)' : 'scale(1)',
-            zIndex: draggedItem === itemId ? 10 : 1
-          }}
-          onMouseDown={() => setDraggedItem(itemId)}
-          onMouseMove={(e) => handleDrag(itemId, e)}
-          onMouseUp={() => handleDragEnd(itemId)}
-        />
-      ))}
-    </div>
-  )
-}
-
-// Elastic Feedback Component
+// Fixed Elastic Feedback Component
 const ElasticButton = ({ children, onClick }: { children: React.ReactNode, onClick?: () => void }) => {
   const [isClicked, setIsClicked] = useState(false)
+  const [animationClass, setAnimationClass] = useState('')
   
   const handleClick = () => {
     setIsClicked(true)
-    setTimeout(() => setIsClicked(false), 600)
+    setAnimationClass('animate-elastic')
+    
+    // Reset the animation
+    setTimeout(() => {
+      setIsClicked(false)
+      setAnimationClass('')
+    }, 600)
+    
     if (onClick) {
       onClick()
     }
   }
   
   return (
-    <button
-      className="px-8 py-4 rounded-2xl font-medium text-lg focus:outline-none"
-      style={{
-        backgroundColor: '#BDC9BB',
-        color: '#4D5D53',
-        transform: isClicked ? 'scale(0.9)' : 'scale(1)',
-        transition: 'transform 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55)',
-        boxShadow: isClicked ? '0 5px 15px rgba(189, 201, 187, 0.4)' : '0 10px 25px rgba(189, 201, 187, 0.3)'
-      }}
-      onClick={handleClick}
-    >
-      {children}
-    </button>
+    <>
+      <style>
+        {`
+          @keyframes elastic {
+            0% { transform: scale(1); }
+            20% { transform: scale(0.9); }
+            40% { transform: scale(1.1); }
+            60% { transform: scale(0.95); }
+            80% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+          }
+          .animate-elastic {
+            animation: elastic 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+          }
+        `}
+      </style>
+      <button
+        className={`px-8 py-4 rounded-2xl font-medium text-lg focus:outline-none transition-shadow duration-200 ${animationClass}`}
+        style={{
+          backgroundColor: '#BDC9BB',
+          color: '#4D5D53',
+          boxShadow: isClicked ? '0 5px 15px rgba(189, 201, 187, 0.4)' : '0 10px 25px rgba(189, 201, 187, 0.3)'
+        }}
+        onClick={handleClick}
+      >
+        {children}
+      </button>
+    </>
   )
 }
 
@@ -670,7 +596,7 @@ function App() {
           {/* Wind Effects */}
           <div className="mb-12">
             <h3 className="text-2xl font-semibold mb-6" style={{ color: '#4D5D53' }}>
-              Wind Effects
+              Wind Effects (Fixed!)
             </h3>
             <div className="p-8 rounded-3xl shadow-lg border" style={{ backgroundColor: '#FDFBF8', borderColor: '#F8F2E6' }}>
               <div className="flex flex-wrap gap-6 items-center justify-center">
@@ -686,23 +612,6 @@ function App() {
                     <p style={{ color: '#6B7A5E' }}>Continuous, subtle movement creates life</p>
                   </div>
                 </WindyCard>
-              </div>
-            </div>
-          </div>
-
-          {/* Irregular Shapes */}
-          <div className="mb-12">
-            <h3 className="text-2xl font-semibold mb-6" style={{ color: '#4D5D53' }}>
-              Irregular Shapes
-            </h3>
-            <div className="p-8 rounded-3xl shadow-lg border" style={{ backgroundColor: '#FDFBF8', borderColor: '#F8F2E6' }}>
-              <div className="flex flex-wrap gap-6 items-center justify-center">
-                <IrregularShape>
-                  <div>Hexagon Shape</div>
-                </IrregularShape>
-                <div className="text-center">
-                  <p style={{ color: '#6B7A5E' }}>Organic, non-geometric shapes create visual interest</p>
-                </div>
               </div>
             </div>
           </div>
@@ -772,23 +681,10 @@ function App() {
             </div>
           </div>
 
-          {/* Magnetic Snap */}
-          <div className="mb-12">
-            <h3 className="text-2xl font-semibold mb-6" style={{ color: '#4D5D53' }}>
-              Magnetic Snap
-            </h3>
-            <div className="p-8 rounded-3xl shadow-lg border" style={{ backgroundColor: '#FDFBF8', borderColor: '#F8F2E6' }}>
-              <MagneticSnap />
-              <div className="text-center mt-4">
-                <p style={{ color: '#6B7A5E' }}>Drag the circles near the snap zones to feel the magnetic effect</p>
-              </div>
-            </div>
-          </div>
-
           {/* Elastic Feedback */}
           <div className="mb-12">
             <h3 className="text-2xl font-semibold mb-6" style={{ color: '#4D5D53' }}>
-              Elastic Feedback
+              Elastic Feedback (Fixed!)
             </h3>
             <div className="p-8 rounded-3xl shadow-lg border" style={{ backgroundColor: '#FDFBF8', borderColor: '#F8F2E6' }}>
               <div className="flex justify-center">
