@@ -17,10 +17,10 @@ const Button = ({
   const baseStyles = "font-medium transition-all duration-300 ease-out transform hover:scale-[1.02] active:scale-[0.98] focus:outline-none focus:ring-2 focus:ring-offset-2 relative overflow-hidden"
   
   const variants = {
-    primary: "bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-700 hover:to-teal-700 text-white shadow-lg hover:shadow-xl focus:ring-emerald-500",
-    secondary: "bg-gradient-to-r from-amber-100 to-orange-100 hover:from-amber-200 hover:to-orange-200 text-amber-900 shadow-md hover:shadow-lg focus:ring-amber-400 border border-amber-200",
-    ghost: "bg-transparent hover:bg-stone-100 text-stone-700 hover:text-stone-900 focus:ring-stone-300",
-    accent: "bg-gradient-to-r from-rose-200 to-pink-200 hover:from-rose-300 hover:to-pink-300 text-rose-900 shadow-md hover:shadow-lg focus:ring-rose-400"
+    primary: "shadow-lg hover:shadow-xl focus:ring-2 focus:ring-offset-2",
+    secondary: "shadow-md hover:shadow-lg focus:ring-2 focus:ring-offset-2",
+    ghost: "hover:bg-opacity-10 focus:ring-2 focus:ring-offset-2",
+    accent: "shadow-md hover:shadow-lg focus:ring-2 focus:ring-offset-2"
   }
   
   const sizes = {
@@ -32,6 +32,24 @@ const Button = ({
   return (
     <button 
       className={`${baseStyles} ${variants[variant]} ${sizes[size]} ${className}`}
+      style={{
+        backgroundColor: variant === 'primary' ? '#78866B' : 
+                        variant === 'secondary' ? '#F8F2E6' : 
+                        variant === 'accent' ? '#BDC9BB' : 'transparent',
+        borderColor: variant === 'primary' ? '#78866B' : 
+                    variant === 'secondary' ? '#F3ECE0' : 
+                    variant === 'accent' ? '#ACBAA1' : 'transparent',
+        color: variant === 'primary' ? 'white' : 
+               variant === 'secondary' ? '#4D5D53' : 
+               variant === 'accent' ? '#4D5D53' : 
+               variant === 'ghost' ? '#6B7A5E' : 'inherit',
+        borderWidth: '1px',
+        borderStyle: 'solid',
+        '--tw-ring-color': variant === 'primary' ? '#8F9779' : 
+                          variant === 'secondary' ? '#EED8AE' : 
+                          variant === 'accent' ? '#8F9779' : 
+                          '#8F9779'
+      } as React.CSSProperties}
       {...props}
     >
       {children}
@@ -41,28 +59,124 @@ const Button = ({
 
 // Color Palette Display Component
 const ColorPalette = () => {
-  const colors = [
-    { name: "Sage Primary", class: "bg-emerald-600", hex: "#059669" },
-    { name: "Earth Warm", class: "bg-amber-700", hex: "#B45309" },
-    { name: "Terracotta", class: "bg-orange-600", hex: "#EA580C" },
-    { name: "Vintage Cream", class: "bg-amber-50", hex: "#FFFBEB" },
-    { name: "Champagne", class: "bg-yellow-100", hex: "#FEF3C7" },
-    { name: "Soft Beige", class: "bg-stone-200", hex: "#E7E5E4" },
-    { name: "Blush Pink", class: "bg-rose-200", hex: "#FECACA" },
-    { name: "Lavender", class: "bg-purple-200", hex: "#E9D5FF" },
-    { name: "Mint", class: "bg-emerald-200", hex: "#A7F3D0" },
-    { name: "Peach", class: "bg-orange-200", hex: "#FED7AA" },
-  ]
+  const colorSystem = {
+    sage: [
+      { name: "Sage 50", hex: "#F4F6F2", description: "Lightest sage for backgrounds" },
+      { name: "Sage 100", hex: "#E8ECDE", description: "Very light sage" },
+      { name: "Sage 200", hex: "#BDC9BB", description: "Light sage for subtle elements" },
+      { name: "Sage 300", hex: "#ACBAA1", description: "Medium-light sage" },
+      { name: "Sage 400", hex: "#9BAA94", description: "Medium sage for accents" },
+      { name: "Sage 500", hex: "#8F9779", description: "Base sage color" },
+      { name: "Sage 600", hex: "#78866B", description: "Primary sage for buttons" },
+      { name: "Sage 700", hex: "#6B7A5E", description: "Dark sage for emphasis" },
+      { name: "Sage 800", hex: "#5E6D52", description: "Darker sage for contrast" },
+      { name: "Sage 900", hex: "#4D5D53", description: "Darkest sage for text" }
+    ],
+    lace: [
+      { name: "Lace 50", hex: "#FDFCFA", description: "Pure white with warmth" },
+      { name: "Lace 100", hex: "#FDFBF8", description: "Softest lace tone" },
+      { name: "Lace 200", hex: "#F8F2E6", description: "Classic vintage lace" },
+      { name: "Lace 300", hex: "#F3ECE0", description: "Warm cream tone" },
+      { name: "Lace 400", hex: "#EED8AE", description: "Rich champagne" },
+      { name: "Lace 500", hex: "#E6D2A6", description: "Golden lace" },
+      { name: "Lace 600", hex: "#D4C199", description: "Deeper cream" },
+      { name: "Lace 700", hex: "#C2B08C", description: "Vintage beige" },
+      { name: "Lace 800", hex: "#A89B7A", description: "Antique lace" },
+      { name: "Lace 900", hex: "#8E8268", description: "Deep vintage tone" }
+    ]
+  }
   
   return (
-    <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
-      {colors.map((color, index) => (
-        <div key={index} className="text-center">
-          <div className={`${color.class} h-20 w-full rounded-2xl shadow-md mb-2 border border-stone-300`}></div>
-          <p className="text-sm font-medium text-stone-700">{color.name}</p>
-          <p className="text-xs text-stone-500">{color.hex}</p>
+    <div className="space-y-8">
+      {/* Sage Palette */}
+      <div>
+        <h3 className="text-2xl font-semibold mb-6" style={{ color: '#4D5D53' }}>
+          Sage Palette
+        </h3>
+        <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
+          {colorSystem.sage.map((color, index) => (
+            <div key={index} className="text-center">
+              <div 
+                className="h-20 w-full rounded-2xl shadow-md mb-2 border"
+                style={{ 
+                  backgroundColor: color.hex,
+                  borderColor: '#E8ECDE'
+                }}
+              ></div>
+              <p className="text-sm font-medium" style={{ color: '#4D5D53' }}>
+                {color.name}
+              </p>
+              <p className="text-xs" style={{ color: '#6B7A5E' }}>
+                {color.hex}
+              </p>
+              <p className="text-xs mt-1" style={{ color: '#8F9779' }}>
+                {color.description}
+              </p>
+            </div>
+          ))}
         </div>
-      ))}
+      </div>
+
+      {/* Vintage Lace Palette */}
+      <div>
+        <h3 className="text-2xl font-semibold mb-6" style={{ color: '#4D5D53' }}>
+          Vintage Lace Palette
+        </h3>
+        <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
+          {colorSystem.lace.map((color, index) => (
+            <div key={index} className="text-center">
+              <div 
+                className="h-20 w-full rounded-2xl shadow-md mb-2 border"
+                style={{ 
+                  backgroundColor: color.hex,
+                  borderColor: '#E8ECDE'
+                }}
+              ></div>
+              <p className="text-sm font-medium" style={{ color: '#4D5D53' }}>
+                {color.name}
+              </p>
+              <p className="text-xs" style={{ color: '#6B7A5E' }}>
+                {color.hex}
+              </p>
+              <p className="text-xs mt-1" style={{ color: '#8F9779' }}>
+                {color.description}
+              </p>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* Usage Examples */}
+      <div>
+        <h3 className="text-2xl font-semibold mb-6" style={{ color: '#4D5D53' }}>
+          Color Harmony Examples
+        </h3>
+        <div className="grid md:grid-cols-3 gap-6">
+          <div className="p-6 rounded-3xl shadow-lg border" style={{ backgroundColor: '#F8F2E6', borderColor: '#F3ECE0' }}>
+            <div className="w-12 h-12 rounded-2xl mb-4 flex items-center justify-center" style={{ backgroundColor: '#78866B' }}>
+              <span className="text-white font-bold text-lg">1</span>
+            </div>
+            <h4 className="text-lg font-semibold mb-2" style={{ color: '#4D5D53' }}>Primary Combination</h4>
+            <p style={{ color: '#6B7A5E' }}>Sage 600 on Lace 200 background</p>
+          </div>
+          
+          <div className="p-6 rounded-3xl shadow-lg border" style={{ backgroundColor: '#FDFBF8', borderColor: '#F8F2E6' }}>
+            <div className="w-12 h-12 rounded-2xl mb-4 flex items-center justify-center" style={{ backgroundColor: '#8F9779' }}>
+              <span className="text-white font-bold text-lg">2</span>
+            </div>
+            <h4 className="text-lg font-semibold mb-2" style={{ color: '#4D5D53' }}>Secondary Combination</h4>
+            <p style={{ color: '#6B7A5E' }}>Sage 500 on Lace 100 background</p>
+          </div>
+          
+          <div className="p-6 rounded-3xl shadow-lg border" style={{ backgroundColor: '#F4F6F2', borderColor: '#E8ECDE' }}>
+            <div className="w-12 h-12 rounded-2xl mb-4 flex items-center justify-center" style={{ backgroundColor: '#ACBAA1' }}>
+              <span style={{ color: '#4D5D53' }} className="font-bold text-lg">3</span>
+            </div>
+            <h4 className="text-lg font-semibold mb-2" style={{ color: '#4D5D53' }}>Subtle Combination</h4>
+            <p style={{ color: '#6B7A5E' }}>Sage 300 on Sage 50 background</p>
+          </div>
+        </div>
+      </div>
     </div>
   )
 }
@@ -74,83 +188,83 @@ function App() {
         
         {/* Header */}
         <div className="text-center mb-16">
-          <h1 className="text-5xl font-bold text-stone-800 mb-4">
+          <h1 className="text-5xl font-bold mb-4" style={{ color: '#4D5D53' }}>
             Organic Modernism
           </h1>
-          <p className="text-xl text-stone-600 max-w-2xl mx-auto">
+          <p className="text-xl max-w-2xl mx-auto" style={{ color: '#6B7A5E' }}>
             A design language that blends natural harmony with modern precision
           </p>
         </div>
 
         {/* Design Philosophy */}
         <div className="mb-16">
-          <h2 className="text-3xl font-semibold text-stone-800 mb-8 text-center">
+          <h2 className="text-3xl font-semibold mb-8 text-center" style={{ color: '#4D5D53' }}>
             Design Philosophy
           </h2>
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-            <div className="bg-white/70 backdrop-blur-sm p-8 rounded-3xl shadow-lg border border-stone-200">
-              <div className="w-12 h-12 bg-gradient-to-r from-emerald-500 to-teal-500 rounded-2xl mb-4 flex items-center justify-center">
+            <div className="p-8 rounded-3xl shadow-lg border" style={{ backgroundColor: '#FDFBF8', borderColor: '#F8F2E6' }}>
+              <div className="w-12 h-12 rounded-2xl mb-4 flex items-center justify-center" style={{ backgroundColor: '#78866B' }}>
                 <span className="text-white font-bold text-lg">○</span>
               </div>
-              <h3 className="text-xl font-semibold text-stone-800 mb-3">Organic Geometry</h3>
-              <p className="text-stone-600">Blend natural, flowing shapes with precise geometric elements for visual harmony.</p>
+              <h3 className="text-xl font-semibold mb-3" style={{ color: '#4D5D53' }}>Organic Geometry</h3>
+              <p style={{ color: '#6B7A5E' }}>Blend natural, flowing shapes with precise geometric elements for visual harmony.</p>
             </div>
             
-            <div className="bg-white/70 backdrop-blur-sm p-8 rounded-3xl shadow-lg border border-stone-200">
-              <div className="w-12 h-12 bg-gradient-to-r from-amber-500 to-orange-500 rounded-2xl mb-4 flex items-center justify-center">
+            <div className="p-8 rounded-3xl shadow-lg border" style={{ backgroundColor: '#FDFBF8', borderColor: '#F8F2E6' }}>
+              <div className="w-12 h-12 rounded-2xl mb-4 flex items-center justify-center" style={{ backgroundColor: '#8F9779' }}>
                 <span className="text-white font-bold text-lg">△</span>
               </div>
-              <h3 className="text-xl font-semibold text-stone-800 mb-3">Layered Depth</h3>
-              <p className="text-stone-600">Subtle shadows and layering create depth without visual heaviness.</p>
+              <h3 className="text-xl font-semibold mb-3" style={{ color: '#4D5D53' }}>Layered Depth</h3>
+              <p style={{ color: '#6B7A5E' }}>Subtle shadows and layering create depth without visual heaviness.</p>
             </div>
             
-            <div className="bg-white/70 backdrop-blur-sm p-8 rounded-3xl shadow-lg border border-stone-200">
-              <div className="w-12 h-12 bg-gradient-to-r from-rose-400 to-pink-400 rounded-2xl mb-4 flex items-center justify-center">
-                <span className="text-white font-bold text-lg">◊</span>
+            <div className="p-8 rounded-3xl shadow-lg border" style={{ backgroundColor: '#FDFBF8', borderColor: '#F8F2E6' }}>
+              <div className="w-12 h-12 rounded-2xl mb-4 flex items-center justify-center" style={{ backgroundColor: '#ACBAA1' }}>
+                <span style={{ color: '#4D5D53' }} className="font-bold text-lg">◊</span>
               </div>
-              <h3 className="text-xl font-semibold text-stone-800 mb-3">Tactile Elements</h3>
-              <p className="text-stone-600">Components feel textured and weighted, inviting interaction.</p>
+              <h3 className="text-xl font-semibold mb-3" style={{ color: '#4D5D53' }}>Tactile Elements</h3>
+              <p style={{ color: '#6B7A5E' }}>Components feel textured and weighted, inviting interaction.</p>
             </div>
             
-            <div className="bg-white/70 backdrop-blur-sm p-8 rounded-3xl shadow-lg border border-stone-200">
-              <div className="w-12 h-12 bg-gradient-to-r from-purple-400 to-indigo-400 rounded-2xl mb-4 flex items-center justify-center">
-                <span className="text-white font-bold text-lg">◌</span>
+            <div className="p-8 rounded-3xl shadow-lg border" style={{ backgroundColor: '#FDFBF8', borderColor: '#F8F2E6' }}>
+              <div className="w-12 h-12 rounded-2xl mb-4 flex items-center justify-center" style={{ backgroundColor: '#9BAA94' }}>
+                <span style={{ color: '#4D5D53' }} className="font-bold text-lg">◌</span>
               </div>
-              <h3 className="text-xl font-semibold text-stone-800 mb-3">Breathing Space</h3>
-              <p className="text-stone-600">Generous spacing creates a luxurious, uncluttered experience.</p>
+              <h3 className="text-xl font-semibold mb-3" style={{ color: '#4D5D53' }}>Breathing Space</h3>
+              <p style={{ color: '#6B7A5E' }}>Generous spacing creates a luxurious, uncluttered experience.</p>
             </div>
             
-            <div className="bg-white/70 backdrop-blur-sm p-8 rounded-3xl shadow-lg border border-stone-200">
-              <div className="w-12 h-12 bg-gradient-to-r from-teal-400 to-cyan-400 rounded-2xl mb-4 flex items-center justify-center">
-                <span className="text-white font-bold text-lg">◐</span>
+            <div className="p-8 rounded-3xl shadow-lg border" style={{ backgroundColor: '#FDFBF8', borderColor: '#F8F2E6' }}>
+              <div className="w-12 h-12 rounded-2xl mb-4 flex items-center justify-center" style={{ backgroundColor: '#BDC9BB' }}>
+                <span style={{ color: '#4D5D53' }} className="font-bold text-lg">◐</span>
               </div>
-              <h3 className="text-xl font-semibold text-stone-800 mb-3">Micro-interactions</h3>
-              <p className="text-stone-600">Subtle, organic animations that respond naturally to user input.</p>
+              <h3 className="text-xl font-semibold mb-3" style={{ color: '#4D5D53' }}>Micro-interactions</h3>
+              <p style={{ color: '#6B7A5E' }}>Subtle, organic animations that respond naturally to user input.</p>
             </div>
           </div>
         </div>
 
         {/* Color Palette */}
         <div className="mb-16">
-          <h2 className="text-3xl font-semibold text-stone-800 mb-8 text-center">
-            Color Palette
+          <h2 className="text-3xl font-semibold mb-8 text-center" style={{ color: '#4D5D53' }}>
+            Color System
           </h2>
-          <div className="bg-white/70 backdrop-blur-sm p-8 rounded-3xl shadow-lg border border-stone-200">
+          <div className="p-8 rounded-3xl shadow-lg border" style={{ backgroundColor: '#FDFBF8', borderColor: '#F8F2E6' }}>
             <ColorPalette />
           </div>
         </div>
 
         {/* Button Component Showcase */}
         <div className="mb-16">
-          <h2 className="text-3xl font-semibold text-stone-800 mb-8 text-center">
+          <h2 className="text-3xl font-semibold mb-8 text-center" style={{ color: '#4D5D53' }}>
             Button Component
           </h2>
-          <div className="bg-white/70 backdrop-blur-sm p-8 rounded-3xl shadow-lg border border-stone-200">
+          <div className="p-8 rounded-3xl shadow-lg border" style={{ backgroundColor: '#FDFBF8', borderColor: '#F8F2E6' }}>
             <div className="space-y-8">
               
               {/* Variants */}
               <div>
-                <h3 className="text-xl font-semibold text-stone-800 mb-4">Variants</h3>
+                <h3 className="text-xl font-semibold mb-4" style={{ color: '#4D5D53' }}>Variants</h3>
                 <div className="flex flex-wrap gap-4">
                   <Button variant="primary">Primary Action</Button>
                   <Button variant="secondary">Secondary Action</Button>
@@ -161,7 +275,7 @@ function App() {
               
               {/* Sizes */}
               <div>
-                <h3 className="text-xl font-semibold text-stone-800 mb-4">Sizes</h3>
+                <h3 className="text-xl font-semibold mb-4" style={{ color: '#4D5D53' }}>Sizes</h3>
                 <div className="flex flex-wrap items-center gap-4">
                   <Button size="sm">Small</Button>
                   <Button size="md">Medium</Button>
@@ -171,7 +285,7 @@ function App() {
               
               {/* Interactive Example */}
               <div>
-                <h3 className="text-xl font-semibold text-stone-800 mb-4">Interactive Example</h3>
+                <h3 className="text-xl font-semibold mb-4" style={{ color: '#4D5D53' }}>Interactive Example</h3>
                 <div className="flex flex-wrap gap-4">
                   <Button 
                     variant="primary" 
@@ -194,7 +308,7 @@ function App() {
 
         {/* Footer */}
         <div className="text-center">
-          <p className="text-stone-500 text-sm">
+          <p className="text-sm" style={{ color: '#8F9779' }}>
             This is the foundation of our design system. More components coming soon!
           </p>
         </div>
