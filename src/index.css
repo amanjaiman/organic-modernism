@@ -1,1 +1,112 @@
 @import "tailwindcss";
+
+/* Font Options for Design System Testing */
+:root {
+  /* Font Family Options */
+  --font-nunito: 'Nunito Sans', ui-sans-serif, system-ui, -apple-system, sans-serif;
+  --font-system: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+  
+  /* Active Font Variables - Change these to switch fonts globally */
+  --font-primary: var(--font-system);
+  --font-heading: var(--font-system);
+  --font-body: var(--font-system);
+  --font-mono: ui-monospace, SFMono-Regular, 'SF Mono', Consolas, monospace;
+}
+
+/* Apply fonts to the entire application */
+* {
+  font-family: var(--font-primary);
+}
+
+/* Specific typography classes for testing */
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-heading);
+}
+
+.font-heading {
+  font-family: var(--font-heading);
+}
+
+.font-body {
+  font-family: var(--font-body);
+}
+
+.font-mono {
+  font-family: var(--font-mono);
+}
+
+@theme {
+  /* Our primary sage palette */
+  --color-sage-50: #F4F6F2;
+  --color-sage-100: #E8EDE4;
+  --color-sage-200: #D1DBD6;
+  --color-sage-300: #BBC9C2;
+  --color-sage-400: #A4B7AE;
+  --color-sage-500: #8EA59A;
+  --color-sage-600: #789386;
+  --color-sage-700: #658172;
+  --color-sage-800: #59745E;
+  --color-sage-900: #4D5D53;
+
+  /* Our secondary vintage lace palette */
+  --color-vintage-lace-50: #FDFCFA;
+  --color-vintage-lace-100: #FBF9F4;
+  --color-vintage-lace-200: #F6F3E8;
+  --color-vintage-lace-300: #F0ECDC;
+  --color-vintage-lace-400: #EBE5D0;
+  --color-vintage-lace-500: #E5DEC4;
+  --color-vintage-lace-600: #D4C7A8;
+  --color-vintage-lace-700: #C3B08C;
+  --color-vintage-lace-800: #A8956A;
+  --color-vintage-lace-900: #8E8268;
+
+  /* Semantic colors using the beautiful Badge colors you loved! */
+  
+  /* Success: Soft sage green #A4B7AE - the color you loved! */
+  --color-success-50: #F4F6F2;   
+  --color-success-100: #E8EDE4;  
+  --color-success-200: #D1DBD6;  
+  --color-success-300: #BBC9C2;  
+  --color-success-400: #A4B7AE;  /* ← THE COLOR YOU LOVED! */
+  --color-success-500: #A4B7AE;  /* Using your loved color as primary */
+  --color-success-600: #8EA59A;  /* Darker variation */
+  --color-success-700: #789386;  
+  --color-success-800: #658172;  
+  --color-success-900: #4D5D53;  
+
+  /* Info: Light sage #BBC9C2 - the color you loved! */
+  --color-info-50: #F6F7F5;      
+  --color-info-100: #EBEEE8;     
+  --color-info-200: #D6DED9;     
+  --color-info-300: #C1CCC5;     
+  --color-info-400: #BBC9C2;     /* ← THE COLOR YOU LOVED! */
+  --color-info-500: #BBC9C2;     /* Using your loved color as primary */
+  --color-info-600: #A4B7AE;     /* Darker variation */
+  --color-info-700: #8EA59A;     
+  --color-info-800: #789386;     
+  --color-info-900: #4D5D53;     
+
+  /* Warning: Warm cream #EBE5D0 - the color you loved! */
+  --color-warning-50: #FDFCFA;   
+  --color-warning-100: #FBF9F4;  
+  --color-warning-200: #F6F3E8;  
+  --color-warning-300: #F0ECDC;  
+  --color-warning-400: #EBE5D0;  /* ← THE COLOR YOU LOVED! */
+  --color-warning-500: #EBE5D0;  /* Using your loved color as primary */
+  --color-warning-600: #D4C7A8;  /* Darker variation */
+  --color-warning-700: #C3B08C;  
+  --color-warning-800: #A8956A;  
+  --color-warning-900: #8E8268;  
+
+  /* Error: Muted rose #D1A3A3 - the color you loved! */
+  --color-error-50: #FDF9F9;     /* Light rose tints */
+  --color-error-100: #FBF2F2;    
+  --color-error-200: #F6E6E6;    
+  --color-error-300: #F0D9D9;    
+  --color-error-400: #E6BFBF;    
+  --color-error-500: #D1A3A3;    /* ← THE COLOR YOU LOVED! */
+  --color-error-600: #D1A3A3;    /* Using your loved color as primary */
+  --color-error-700: #B88A8A;    /* Darker variation */
+  --color-error-800: #A67272;    
+  --color-error-900: #8B5A5A;    
+}
