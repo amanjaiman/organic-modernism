@@ -213,7 +213,7 @@ export const MultiSelect: React.FC<MultiSelectProps> = ({
         {/* Static liquid background glow effect */}
         {(isFocused || isOpen) && !disabled && !error && !success && (
           <div
-            className="absolute inset-0 pointer-events-none rounded-2xl"
+            className="absolute inset-0 pointer-events-none rounded-lg"
             style={{
               background: `radial-gradient(circle at 30% 40%, rgba(120, 134, 107, 0.12) 0%, transparent 70%)`,
               transition: 'opacity 0.5s ease-out',
@@ -225,14 +225,14 @@ export const MultiSelect: React.FC<MultiSelectProps> = ({
         {/* Select trigger */}
         <div
           className={`
-            relative w-full border-2 rounded-2xl transition-all duration-500 ease-out
+            relative w-full border-2 rounded-lg transition-all duration-500 ease-out
             focus:outline-none cursor-pointer flex items-center justify-between min-h-[44px]
             ${sizes[size].select}
             ${disabled ? 'cursor-not-allowed' : ''}
           `}
           style={{
             ...getStateStyles(),
-            borderRadius: '16px',
+                          borderRadius: '8px',
             transition: 'all 0.5s cubic-bezier(0.23, 1, 0.32, 1)'
           } as React.CSSProperties}
           onClick={handleToggle}
@@ -243,7 +243,7 @@ export const MultiSelect: React.FC<MultiSelectProps> = ({
                 <span
                   key={option.value}
                   className={`
-                    inline-flex items-center gap-1 bg-sage-100 text-sage-700 rounded-xl font-medium
+                    inline-flex items-center gap-1 bg-sage-100 text-sage-700 rounded-md font-medium
                     ${sizes[size].tag}
                   `}
                   style={{
@@ -282,7 +282,7 @@ export const MultiSelect: React.FC<MultiSelectProps> = ({
         {/* Dropdown menu */}
         {isOpen && (
           <div
-            className="absolute z-50 w-full mt-2 bg-white border-2 border-stone-200 rounded-2xl shadow-lg max-h-60 overflow-y-auto"
+            className="absolute z-50 w-full mt-2 bg-white border-2 border-stone-200 rounded-lg shadow-lg max-h-60 overflow-y-auto"
             style={{
               backgroundColor: '#FDFBF8',
               borderColor: '#F3ECE0',
@@ -298,7 +298,7 @@ export const MultiSelect: React.FC<MultiSelectProps> = ({
                   placeholder="Search options..."
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
-                  className={`w-full px-3 py-2 text-sm border border-stone-200 rounded-xl focus:outline-none focus:border-sage-500 ${sizes[size].dropdown}`}
+                  className={`w-full px-3 py-2 text-sm border border-stone-200 rounded-md focus:outline-none focus:border-sage-500 ${sizes[size].dropdown}`}
                   style={{
                     backgroundColor: '#FDFBF8',
                     borderColor: '#F3ECE0'

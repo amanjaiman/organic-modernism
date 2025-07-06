@@ -223,7 +223,7 @@ export const PressureCheckbox: React.FC<PressureCheckboxProps> = ({
           {/* Liquid glow effect */}
           {(isFocused || isPressed) && !disabled && !error && !success && (
             <div
-              className="absolute inset-0 pointer-events-none rounded-lg"
+              className="absolute inset-0 pointer-events-none rounded"
               style={{
                 background: `radial-gradient(circle at 50% 50%, rgba(120, 134, 107, ${isPressed ? 0.25 : 0.15}) 0%, transparent 70%)`,
                 transition: 'opacity 0.3s ease-out',
@@ -235,7 +235,7 @@ export const PressureCheckbox: React.FC<PressureCheckboxProps> = ({
 
           <div
             className={`
-              relative flex items-center justify-center border-2 rounded-lg transition-colors duration-300 ease-out overflow-hidden
+              relative flex items-center justify-center border-2 rounded transition-colors duration-300 ease-out overflow-hidden
               ${sizes[size].checkbox}
               ${disabled ? 'cursor-not-allowed' : 'cursor-pointer'}
             `}

@@ -11,6 +11,24 @@
   --font-heading: var(--font-system);
   --font-body: var(--font-system);
   --font-mono: ui-monospace, SFMono-Regular, 'SF Mono', Consolas, monospace;
+  
+  /* Border Radius Options for Design System Testing */
+  --border-radius-sm: 2px;
+  --border-radius-base: 4px;
+  --border-radius-md: 6px;
+  --border-radius-lg: 8px;
+  --border-radius-xl: 12px;
+  --border-radius-2xl: 16px;
+  --border-radius-3xl: 24px;
+  
+  /* Active Border Radius Variables - Change these to switch border radius globally */
+  --border-radius-active-sm: var(--border-radius-sm);
+  --border-radius-active-base: var(--border-radius-base);
+  --border-radius-active-md: var(--border-radius-md);
+  --border-radius-active-lg: var(--border-radius-lg);
+  --border-radius-active-xl: var(--border-radius-xl);
+  --border-radius-active-2xl: var(--border-radius-2xl);
+  --border-radius-active-3xl: var(--border-radius-3xl);
 }
 
 /* Apply fonts to the entire application */
@@ -109,4 +127,104 @@ h1, h2, h3, h4, h5, h6 {
   --color-error-700: #B88A8A;    /* Darker variation */
   --color-error-800: #A67272;    
   --color-error-900: #8B5A5A;    
+}
+
+/* Border Radius Overrides - Override Tailwind classes with CSS custom properties */
+.rounded-sm {
+  border-radius: var(--border-radius-active-sm) !important;
+}
+
+.rounded {
+  border-radius: var(--border-radius-active-base) !important;
+}
+
+.rounded-md {
+  border-radius: var(--border-radius-active-md) !important;
+}
+
+.rounded-lg {
+  border-radius: var(--border-radius-active-lg) !important;
+}
+
+.rounded-xl {
+  border-radius: var(--border-radius-active-xl) !important;
+}
+
+.rounded-2xl {
+  border-radius: var(--border-radius-active-2xl) !important;
+}
+
+.rounded-3xl {
+  border-radius: var(--border-radius-active-3xl) !important;
+}
+
+/* Corner-specific overrides */
+.rounded-t-sm {
+  border-top-left-radius: var(--border-radius-active-sm) !important;
+  border-top-right-radius: var(--border-radius-active-sm) !important;
+}
+
+.rounded-t {
+  border-top-left-radius: var(--border-radius-active-base) !important;
+  border-top-right-radius: var(--border-radius-active-base) !important;
+}
+
+.rounded-t-md {
+  border-top-left-radius: var(--border-radius-active-md) !important;
+  border-top-right-radius: var(--border-radius-active-md) !important;
+}
+
+.rounded-t-lg {
+  border-top-left-radius: var(--border-radius-active-lg) !important;
+  border-top-right-radius: var(--border-radius-active-lg) !important;
+}
+
+.rounded-t-xl {
+  border-top-left-radius: var(--border-radius-active-xl) !important;
+  border-top-right-radius: var(--border-radius-active-xl) !important;
+}
+
+.rounded-t-2xl {
+  border-top-left-radius: var(--border-radius-active-2xl) !important;
+  border-top-right-radius: var(--border-radius-active-2xl) !important;
+}
+
+.rounded-t-3xl {
+  border-top-left-radius: var(--border-radius-active-3xl) !important;
+  border-top-right-radius: var(--border-radius-active-3xl) !important;
+}
+
+.rounded-b-sm {
+  border-bottom-left-radius: var(--border-radius-active-sm) !important;
+  border-bottom-right-radius: var(--border-radius-active-sm) !important;
+}
+
+.rounded-b {
+  border-bottom-left-radius: var(--border-radius-active-base) !important;
+  border-bottom-right-radius: var(--border-radius-active-base) !important;
+}
+
+.rounded-b-md {
+  border-bottom-left-radius: var(--border-radius-active-md) !important;
+  border-bottom-right-radius: var(--border-radius-active-md) !important;
+}
+
+.rounded-b-lg {
+  border-bottom-left-radius: var(--border-radius-active-lg) !important;
+  border-bottom-right-radius: var(--border-radius-active-lg) !important;
+}
+
+.rounded-b-xl {
+  border-bottom-left-radius: var(--border-radius-active-xl) !important;
+  border-bottom-right-radius: var(--border-radius-active-xl) !important;
+}
+
+.rounded-b-2xl {
+  border-bottom-left-radius: var(--border-radius-active-2xl) !important;
+  border-bottom-right-radius: var(--border-radius-active-2xl) !important;
+}
+
+.rounded-b-3xl {
+  border-bottom-left-radius: var(--border-radius-active-3xl) !important;
+  border-bottom-right-radius: var(--border-radius-active-3xl) !important;
 }

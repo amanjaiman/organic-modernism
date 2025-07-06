@@ -38,7 +38,7 @@ const LiquidPaginationButton: React.FC<{
       onClick={onClick}
       disabled={disabled}
       className={`
-        relative w-10 h-10 rounded-2xl font-medium transition-all duration-300 overflow-hidden
+        relative w-10 h-10 rounded-lg font-medium transition-all duration-300 overflow-hidden
         ${isActive ? 'font-bold' : ''}
         ${disabled ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer'}
         ${isHovered && !disabled ? 'scale-110' : ''}
@@ -109,7 +109,7 @@ const ArrowButton: React.FC<{
       onClick={onClick}
       disabled={disabled}
       className={`
-        relative w-10 h-10 rounded-2xl font-medium transition-all duration-300 overflow-hidden flex items-center justify-center
+        relative w-10 h-10 rounded-lg font-medium transition-all duration-300 overflow-hidden flex items-center justify-center
         ${disabled ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer'}
         ${isHovered && !disabled ? 'scale-110' : ''}
       `}
@@ -211,7 +211,7 @@ export const Pagination: React.FC<PaginationProps> = ({
         )}
         
         <div 
-          className="px-4 py-2 rounded-2xl font-medium border"
+          className="px-4 py-2 rounded-lg font-medium border"
           style={{
             backgroundColor: '#F8F2E6',
             borderColor: '#F3ECE0',
@@ -272,7 +272,7 @@ export const Pagination: React.FC<PaginationProps> = ({
               onClick={() => onPageChange(page)}
               disabled={disabled}
               className={`
-                w-10 h-10 rounded-2xl font-medium transition-all duration-200
+                w-10 h-10 rounded-lg font-medium transition-all duration-200
                 ${page === currentPage ? 'font-bold' : ''}
                 ${disabled ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer hover:scale-105'}
               `}

@@ -165,7 +165,7 @@ export const Textarea: React.FC<TextareaProps> = ({
         {/* Static liquid background glow effect */}
         {isFocused && !disabled && !error && !success && (
           <div
-            className="absolute inset-0 pointer-events-none rounded-2xl"
+            className="absolute inset-0 pointer-events-none rounded-lg"
             style={{
               background: `radial-gradient(circle at 30% 40%, rgba(120, 134, 107, 0.12) 0%, transparent 70%)`,
               transition: 'opacity 0.5s ease-out',
@@ -183,14 +183,14 @@ export const Textarea: React.FC<TextareaProps> = ({
           required={required}
           rows={rows}
           className={`
-            relative w-full border-2 rounded-2xl transition-all duration-500 ease-out
+            relative w-full border-2 rounded-lg transition-all duration-500 ease-out
             focus:outline-none resize-none
             ${sizes[size].textarea}
             ${disabled ? 'cursor-not-allowed' : ''}
           `}
           style={{
             ...getStateStyles(),
-            borderRadius: '16px',
+                          borderRadius: '8px',
             transition: 'all 0.5s cubic-bezier(0.23, 1, 0.32, 1)',
             minHeight: `${rows * 1.5}rem`
           } as React.CSSProperties}

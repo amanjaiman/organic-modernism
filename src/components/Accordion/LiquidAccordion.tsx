@@ -130,7 +130,7 @@ export const LiquidAccordion: React.FC<LiquidAccordionProps> = ({
                   }`}
                   style={{
                     transform: `rotate(${isOpen ? 180 : 0}deg) scale(${isOpen ? 1.1 : 1})`,
-                    borderRadius: isOpen ? '12px' : '50%',
+                    borderRadius: isOpen ? '6px' : '50%',
                   }}
                 >
                   <svg

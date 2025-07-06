@@ -131,7 +131,7 @@ const Avatar: React.FC<AvatarProps> = ({
           src={src}
           alt={alt || 'Avatar'}
           onError={handleImageError}
-          className={`w-full h-full object-cover ${square ? 'rounded-md' : 'rounded-full'}`}
+          className={`w-full h-full object-cover ${square ? 'rounded-sm' : 'rounded-full'}`}
           style={{
             borderRadius: square ? '0.375rem' : '50%'
           }}
@@ -204,7 +204,7 @@ const Avatar: React.FC<AvatarProps> = ({
       {/* Main Avatar */}
       <div
         className={`w-full h-full flex items-center justify-center overflow-hidden ${
-          square ? 'rounded-md' : 'rounded-full'
+          square ? 'rounded-sm' : 'rounded-full'
         } ${border ? 'border-2 border-white' : ''}`}
         style={{
           backgroundColor: src && !imageError ? 'transparent' : fallbackBg,

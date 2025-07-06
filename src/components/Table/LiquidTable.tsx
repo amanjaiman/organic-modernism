@@ -51,7 +51,7 @@ export const LiquidTable = <T extends Record<string, any>>({
         background: isHovered
           ? `radial-gradient(circle at ${mousePos.x}% ${mousePos.y}%, rgba(120, 134, 107, ${0.15 * multiplier}) 0%, rgba(248, 242, 230, ${0.5 * multiplier}) 30%, rgba(250, 249, 245, ${0.8 * multiplier}) 70%, transparent 100%)`
           : `linear-gradient(135deg, rgba(253, 251, 248, 0.9) 0%, rgba(248, 242, 230, 0.8) 50%, rgba(253, 251, 248, 0.9) 100%)`,
-        borderRadius: '24px',
+        borderRadius: '12px',
         padding: '16px',
         boxShadow: isHovered
           ? `0 20px 40px rgba(120, 134, 107, ${0.2 * multiplier}), 0 10px 20px rgba(120, 134, 107, ${0.1 * multiplier})`
@@ -63,7 +63,7 @@ export const LiquidTable = <T extends Record<string, any>>({
     >
       {/* Liquid highlight overlay */}
       <div
-        className="absolute inset-0 rounded-3xl pointer-events-none"
+        className="absolute inset-0 rounded-xl pointer-events-none"
         style={{
           background: isHovered
             ? `radial-gradient(circle at ${mousePos.x}% ${mousePos.y}%, rgba(255, 255, 255, ${0.3 * multiplier}) 0%, transparent 50%)`
@@ -75,7 +75,7 @@ export const LiquidTable = <T extends Record<string, any>>({
       
       {/* Morphing border effect */}
       <div
-        className="absolute inset-0 rounded-3xl pointer-events-none"
+        className="absolute inset-0 rounded-xl pointer-events-none"
         style={{
           border: `2px solid transparent`,
           background: isHovered
@@ -94,7 +94,7 @@ export const LiquidTable = <T extends Record<string, any>>({
         style={{
           background: 'rgba(255, 255, 255, 0.6)',
           backdropFilter: 'blur(4px)',
-          borderRadius: '16px',
+          borderRadius: '8px',
           overflow: 'hidden',
           border: '1px solid rgba(255, 255, 255, 0.2)',
         }}

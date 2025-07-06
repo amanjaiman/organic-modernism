@@ -135,7 +135,7 @@ const RippleToast: React.FC<RippleToastProps> = ({
       onClick={handleClick}
       className={`
         relative max-w-sm w-full ${styles.bg} ${styles.border}
-        rounded-2xl shadow-lg shadow-stone-900/10 border
+        rounded-lg shadow-lg shadow-stone-900/10 border
         p-4 transition-all duration-300 ease-out cursor-pointer
         overflow-hidden
         ${isVisible && !isExiting ? 'transform translate-x-0 opacity-100' : 'transform translate-x-full opacity-0'}
@@ -160,7 +160,7 @@ const RippleToast: React.FC<RippleToastProps> = ({
 
       <div className="relative flex items-start space-x-3">
         {/* Icon */}
-        <div className={`flex-shrink-0 w-8 h-8 ${styles.iconBg} rounded-xl flex items-center justify-center`}>
+                  <div className={`flex-shrink-0 w-8 h-8 ${styles.iconBg} rounded-md flex items-center justify-center`}>
           <span className={styles.icon}>
             {icons[type]}
           </span>
@@ -184,7 +184,7 @@ const RippleToast: React.FC<RippleToastProps> = ({
             e.stopPropagation();
             handleClose();
           }}
-          className="flex-shrink-0 p-1 rounded-lg text-stone-400 hover:text-stone-600 
+                      className="flex-shrink-0 p-1 rounded text-stone-400 hover:text-stone-600 
             hover:bg-stone-100/50 transition-all duration-200 ease-out
             focus:outline-none focus:ring-2 focus:ring-sage-400/50"
           aria-label="Close notification"
@@ -197,7 +197,7 @@ const RippleToast: React.FC<RippleToastProps> = ({
 
       {/* Progress bar for auto-dismiss */}
       {duration > 0 && (
-        <div className="absolute bottom-0 left-0 right-0 h-1 bg-stone-200/30 rounded-b-2xl overflow-hidden">
+                  <div className="absolute bottom-0 left-0 right-0 h-1 bg-stone-200/30 rounded-b-lg overflow-hidden">
           <div 
             className={`h-full ${styles.iconBg} transition-all ease-linear`}
             style={{

@@ -58,6 +58,55 @@ const useFontSwitcher = () => {
   return currentFont
 }
 
+// Border Radius Switcher - Press 'R' key to toggle border radius
+const useBorderRadiusSwitcher = () => {
+  const [currentRadius, setCurrentRadius] = useState('normal')
+  
+  const toggleBorderRadius = () => {
+    const root = document.documentElement
+    const newRadius = currentRadius === 'normal' ? 'reduced' : 'normal'
+    
+    if (newRadius === 'reduced') {
+      // Reduced border radius values with custom mappings
+      root.style.setProperty('--border-radius-active-sm', '1px')    // 2px -> 1px
+      root.style.setProperty('--border-radius-active-base', '2px')  // 4px -> 2px
+      root.style.setProperty('--border-radius-active-md', '3px')    // 6px -> 3px
+      root.style.setProperty('--border-radius-active-lg', '6px')    // 8px -> 6px
+      root.style.setProperty('--border-radius-active-xl', '8px')    // 12px -> 8px
+      root.style.setProperty('--border-radius-active-2xl', '12px')  // 16px -> 12px
+      root.style.setProperty('--border-radius-active-3xl', '18px')  // 24px -> 18px
+    } else {
+      // Normal border radius values (reset to CSS defaults)
+      root.style.setProperty('--border-radius-active-sm', 'var(--border-radius-sm)')
+      root.style.setProperty('--border-radius-active-base', 'var(--border-radius-base)')
+      root.style.setProperty('--border-radius-active-md', 'var(--border-radius-md)')
+      root.style.setProperty('--border-radius-active-lg', 'var(--border-radius-lg)')
+      root.style.setProperty('--border-radius-active-xl', 'var(--border-radius-xl)')
+      root.style.setProperty('--border-radius-active-2xl', 'var(--border-radius-2xl)')
+      root.style.setProperty('--border-radius-active-3xl', 'var(--border-radius-3xl)')
+    }
+    
+    setCurrentRadius(newRadius)
+  }
+  
+  useEffect(() => {
+    const handleKeyPress = (e: KeyboardEvent) => {
+      if (e.key.toLowerCase() === 'r' && !e.ctrlKey && !e.metaKey && !e.altKey) {
+        // Only trigger if not typing in an input field
+        const target = e.target as HTMLElement
+        if (target.tagName !== 'INPUT' && target.tagName !== 'TEXTAREA' && !target.isContentEditable) {
+          toggleBorderRadius()
+        }
+      }
+    }
+    
+    document.addEventListener('keydown', handleKeyPress)
+    return () => document.removeEventListener('keydown', handleKeyPress)
+  }, [currentRadius])
+  
+  return currentRadius
+}
+
 // Ripple Growth Component
 const RippleGrowth = ({ children, onClick }: { children: React.ReactNode, onClick?: () => void }) => {
   const [ripples, setRipples] = useState<Array<{ id: number, x: number, y: number, size: number }>>([])
@@ -119,7 +168,7 @@ const RippleGrowth = ({ children, onClick }: { children: React.ReactNode, onClic
   return (
     <div
       ref={containerRef}
-      className="relative p-6 rounded-3xl shadow-lg border cursor-pointer overflow-hidden"
+      className="relative p-6 rounded-xl shadow-lg border cursor-pointer overflow-hidden"
       style={{
         backgroundColor: '#FDFBF8',
         borderColor: '#F8F2E6'
@@ -221,7 +270,7 @@ const LocalGestureCard = ({ children }: { children: React.ReactNode }) => {
       onMouseLeave={handleMouseUp}
     >
       <div
-        className={`w-full h-full rounded-2xl shadow-xl transition-all duration-300 preserve-3d ${isFlipped ? 'rotate-y-180' : ''}`}
+        className={`w-full h-full rounded-lg shadow-xl transition-all duration-300 preserve-3d ${isFlipped ? 'rotate-y-180' : ''}`}
         style={{
           transform: `translate(${dragOffset.x * 0.1}px, ${dragOffset.y * 0.1}px) rotateX(${dragOffset.y * 0.1}deg) rotateY(${dragOffset.x * 0.1}deg)`,
           transition: isDragging ? 'none' : 'transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94)',
@@ -232,7 +281,7 @@ const LocalGestureCard = ({ children }: { children: React.ReactNode }) => {
         <div className="absolute inset-0 p-6 flex items-center justify-center backface-hidden">
           <div style={{ color: '#4D5D53' }}>{children}</div>
         </div>
-        <div className="absolute inset-0 p-6 flex items-center justify-center backface-hidden rotate-y-180 rounded-2xl" style={{ backgroundColor: '#BDC9BB' }}>
+        <div className="absolute inset-0 p-6 flex items-center justify-center backface-hidden rotate-y-180 rounded-lg" style={{ backgroundColor: '#BDC9BB' }}>
           <div style={{ color: '#4D5D53' }}>Card Flipped! 🌿</div>
         </div>
       </div>
@@ -376,7 +425,7 @@ const DismissibleAlertExample = ({ type, title }: { type: 'info' | 'warning', ti
   
   if (!isVisible) {
     return (
-      <div className="flex items-center justify-between p-4 rounded-2xl border" style={{ backgroundColor: '#F4F6F2', borderColor: '#E8ECDE' }}>
+      <div className="flex items-center justify-between p-4 rounded-lg border" style={{ backgroundColor: '#F4F6F2', borderColor: '#E8ECDE' }}>
         <span style={{ color: '#6B7A5E' }}>Alert was dismissed</span>
         <Button variant="secondary" size="sm" onClick={() => setIsVisible(true)}>
           Show Again
@@ -914,7 +963,7 @@ const TimeAwareGreeting = () => {
   
   return (
     <div
-      className="p-6 rounded-3xl shadow-lg border transition-all duration-1000"
+      className="p-6 rounded-xl shadow-lg border transition-all duration-1000"
       style={{
         backgroundColor: greeting.bg,
         borderColor: '#F3ECE0'
@@ -972,7 +1021,7 @@ const ColorPalette = () => {
           {colorSystem.sage.map((color, index) => (
             <div key={index} className="text-center">
               <div 
-                className="h-20 w-full rounded-2xl shadow-md mb-2 border"
+                className="h-20 w-full rounded-lg shadow-md mb-2 border"
                 style={{ 
                   backgroundColor: color.hex,
                   borderColor: '#E8ECDE'
@@ -1001,7 +1050,7 @@ const ColorPalette = () => {
           {colorSystem.lace.map((color, index) => (
             <div key={index} className="text-center">
               <div 
-                className="h-20 w-full rounded-2xl shadow-md mb-2 border"
+                className="h-20 w-full rounded-lg shadow-md mb-2 border"
                 style={{ 
                   backgroundColor: color.hex,
                   borderColor: '#E8ECDE'
@@ -1027,24 +1076,24 @@ const ColorPalette = () => {
           Color Harmony Examples
         </h3>
         <div className="grid md:grid-cols-3 gap-6">
-          <div className="p-6 rounded-3xl shadow-lg border" style={{ backgroundColor: '#F8F2E6', borderColor: '#F3ECE0' }}>
-            <div className="w-12 h-12 rounded-2xl mb-4 flex items-center justify-center" style={{ backgroundColor: '#78866B' }}>
+          <div className="p-6 rounded-xl shadow-lg border" style={{ backgroundColor: '#F8F2E6', borderColor: '#F3ECE0' }}>
+            <div className="w-12 h-12 rounded-lg mb-4 flex items-center justify-center" style={{ backgroundColor: '#78866B' }}>
               <span className="text-white font-bold text-lg">1</span>
             </div>
             <h4 className="text-lg font-semibold mb-2" style={{ color: '#4D5D53' }}>Primary Combination</h4>
             <p style={{ color: '#6B7A5E' }}>Sage 600 on Lace 200 background</p>
           </div>
           
-          <div className="p-6 rounded-3xl shadow-lg border" style={{ backgroundColor: '#FDFBF8', borderColor: '#F8F2E6' }}>
-            <div className="w-12 h-12 rounded-2xl mb-4 flex items-center justify-center" style={{ backgroundColor: '#8F9779' }}>
+          <div className="p-6 rounded-xl shadow-lg border" style={{ backgroundColor: '#FDFBF8', borderColor: '#F8F2E6' }}>
+            <div className="w-12 h-12 rounded-lg mb-4 flex items-center justify-center" style={{ backgroundColor: '#8F9779' }}>
               <span className="text-white font-bold text-lg">2</span>
             </div>
             <h4 className="text-lg font-semibold mb-2" style={{ color: '#4D5D53' }}>Secondary Combination</h4>
             <p style={{ color: '#6B7A5E' }}>Sage 500 on Lace 100 background</p>
           </div>
           
-          <div className="p-6 rounded-3xl shadow-lg border" style={{ backgroundColor: '#F4F6F2', borderColor: '#E8ECDE' }}>
-            <div className="w-12 h-12 rounded-2xl mb-4 flex items-center justify-center" style={{ backgroundColor: '#ACBAA1' }}>
+          <div className="p-6 rounded-xl shadow-lg border" style={{ backgroundColor: '#F4F6F2', borderColor: '#E8ECDE' }}>
+            <div className="w-12 h-12 rounded-lg mb-4 flex items-center justify-center" style={{ backgroundColor: '#ACBAA1' }}>
               <span style={{ color: '#4D5D53' }} className="font-bold text-lg">3</span>
             </div>
             <h4 className="text-lg font-semibold mb-2" style={{ color: '#4D5D53' }}>Subtle Combination</h4>
@@ -1365,6 +1414,7 @@ function App() {
   }
 
   const currentFont = useFontSwitcher()
+  const currentRadius = useBorderRadiusSwitcher()
   
   return (
     <div className="min-h-screen" style={{ backgroundColor: 'rgb(250, 249, 245)' }}>
@@ -1391,6 +1441,8 @@ function App() {
           </p>
           <p className="text-sm mt-4 opacity-60" style={{ color: '#6B7A5E' }}>
             Press 'F' to toggle fonts • Currently: {currentFont === 'system' ? 'System Default' : 'Nunito Sans'}
+            <br />
+            Press 'R' to toggle border radius • Currently: {currentRadius === 'normal' ? 'Normal' : 'Reduced'}
           </p>
         </div>
 
@@ -1400,40 +1452,40 @@ function App() {
             Design Philosophy
           </h2>
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-            <div className="p-8 rounded-3xl shadow-lg border" style={{ backgroundColor: '#FDFBF8', borderColor: '#F8F2E6' }}>
-              <div className="w-12 h-12 rounded-2xl mb-4 flex items-center justify-center" style={{ backgroundColor: '#78866B' }}>
+            <div className="p-8 rounded-xl shadow-lg border" style={{ backgroundColor: '#FDFBF8', borderColor: '#F8F2E6' }}>
+              <div className="w-12 h-12 rounded-lg mb-4 flex items-center justify-center" style={{ backgroundColor: '#78866B' }}>
                 <span className="text-white font-bold text-lg">○</span>
               </div>
               <h3 className="text-xl font-semibold mb-3" style={{ color: '#4D5D53' }}>Organic Geometry</h3>
               <p style={{ color: '#6B7A5E' }}>Blend natural, flowing shapes with precise geometric elements for visual harmony.</p>
             </div>
             
-            <div className="p-8 rounded-3xl shadow-lg border" style={{ backgroundColor: '#FDFBF8', borderColor: '#F8F2E6' }}>
-              <div className="w-12 h-12 rounded-2xl mb-4 flex items-center justify-center" style={{ backgroundColor: '#8F9779' }}>
+            <div className="p-8 rounded-xl shadow-lg border" style={{ backgroundColor: '#FDFBF8', borderColor: '#F8F2E6' }}>
+              <div className="w-12 h-12 rounded-lg mb-4 flex items-center justify-center" style={{ backgroundColor: '#8F9779' }}>
                 <span className="text-white font-bold text-lg">△</span>
               </div>
               <h3 className="text-xl font-semibold mb-3" style={{ color: '#4D5D53' }}>Layered Depth</h3>
               <p style={{ color: '#6B7A5E' }}>Subtle shadows and layering create depth without visual heaviness.</p>
             </div>
             
-            <div className="p-8 rounded-3xl shadow-lg border" style={{ backgroundColor: '#FDFBF8', borderColor: '#F8F2E6' }}>
-              <div className="w-12 h-12 rounded-2xl mb-4 flex items-center justify-center" style={{ backgroundColor: '#ACBAA1' }}>
+            <div className="p-8 rounded-xl shadow-lg border" style={{ backgroundColor: '#FDFBF8', borderColor: '#F8F2E6' }}>
+              <div className="w-12 h-12 rounded-lg mb-4 flex items-center justify-center" style={{ backgroundColor: '#ACBAA1' }}>
                 <span style={{ color: '#4D5D53' }} className="font-bold text-lg">◊</span>
               </div>
               <h3 className="text-xl font-semibold mb-3" style={{ color: '#4D5D53' }}>Tactile Elements</h3>
               <p style={{ color: '#6B7A5E' }}>Components feel textured and weighted, inviting interaction.</p>
             </div>
             
-            <div className="p-8 rounded-3xl shadow-lg border" style={{ backgroundColor: '#FDFBF8', borderColor: '#F8F2E6' }}>
-              <div className="w-12 h-12 rounded-2xl mb-4 flex items-center justify-center" style={{ backgroundColor: '#9BAA94' }}>
+            <div className="p-8 rounded-xl shadow-lg border" style={{ backgroundColor: '#FDFBF8', borderColor: '#F8F2E6' }}>
+              <div className="w-12 h-12 rounded-lg mb-4 flex items-center justify-center" style={{ backgroundColor: '#9BAA94' }}>
                 <span style={{ color: '#4D5D53' }} className="font-bold text-lg">◌</span>
               </div>
               <h3 className="text-xl font-semibold mb-3" style={{ color: '#4D5D53' }}>Breathing Space</h3>
               <p style={{ color: '#6B7A5E' }}>Generous spacing creates a luxurious, uncluttered experience.</p>
             </div>
             
-            <div className="p-8 rounded-3xl shadow-lg border" style={{ backgroundColor: '#FDFBF8', borderColor: '#F8F2E6' }}>
-              <div className="w-12 h-12 rounded-2xl mb-4 flex items-center justify-center" style={{ backgroundColor: '#BDC9BB' }}>
+            <div className="p-8 rounded-xl shadow-lg border" style={{ backgroundColor: '#FDFBF8', borderColor: '#F8F2E6' }}>
+              <div className="w-12 h-12 rounded-lg mb-4 flex items-center justify-center" style={{ backgroundColor: '#BDC9BB' }}>
                 <span style={{ color: '#4D5D53' }} className="font-bold text-lg">◐</span>
               </div>
               <h3 className="text-xl font-semibold mb-3" style={{ color: '#4D5D53' }}>Micro-interactions</h3>
@@ -1453,7 +1505,7 @@ function App() {
             <h3 className="text-2xl font-semibold mb-6" style={{ color: '#4D5D53' }}>
               Liquid Transitions
             </h3>
-            <div className="p-8 rounded-3xl shadow-lg border" style={{ backgroundColor: '#FDFBF8', borderColor: '#F8F2E6' }}>
+            <div className="p-8 rounded-xl shadow-lg border" style={{ backgroundColor: '#FDFBF8', borderColor: '#F8F2E6' }}>
               <div className="flex flex-wrap gap-6 items-center justify-center">
                 <LiquidButton onClick={() => alert('Liquid button clicked! Notice the morphing effect.')}>
                   Liquid Button
@@ -1470,7 +1522,7 @@ function App() {
             <h3 className="text-2xl font-semibold mb-6" style={{ color: '#4D5D53' }}>
               Ripple Growth
             </h3>
-            <div className="p-8 rounded-3xl shadow-lg border" style={{ backgroundColor: '#FDFBF8', borderColor: '#F8F2E6' }}>
+            <div className="p-8 rounded-xl shadow-lg border" style={{ backgroundColor: '#FDFBF8', borderColor: '#F8F2E6' }}>
               <div className="flex flex-wrap gap-6 items-center justify-center">
                 <RippleGrowth onClick={() => alert('Ripple clicked! Watch the organic growth!')}>
                   <div className="text-center">
@@ -1493,7 +1545,7 @@ function App() {
             <h3 className="text-2xl font-semibold mb-6" style={{ color: '#4D5D53' }}>
               Vine-like Connectors
             </h3>
-            <div className="p-8 rounded-3xl shadow-lg border" style={{ backgroundColor: '#FDFBF8', borderColor: '#F8F2E6' }}>
+            <div className="p-8 rounded-xl shadow-lg border" style={{ backgroundColor: '#FDFBF8', borderColor: '#F8F2E6' }}>
               <VineConnector />
               <div className="text-center mt-4">
                 <p style={{ color: '#6B7A5E' }}>Organic curves connect elements naturally</p>
@@ -1506,7 +1558,7 @@ function App() {
             <h3 className="text-2xl font-semibold mb-6" style={{ color: '#4D5D53' }}>
               Time-Aware UI
             </h3>
-            <div className="p-8 rounded-3xl shadow-lg border" style={{ backgroundColor: '#FDFBF8', borderColor: '#F8F2E6' }}>
+            <div className="p-8 rounded-xl shadow-lg border" style={{ backgroundColor: '#FDFBF8', borderColor: '#F8F2E6' }}>
               <div className="flex justify-center">
                 <TimeAwareGreeting />
               </div>
@@ -1521,7 +1573,7 @@ function App() {
             <h3 className="text-2xl font-semibold mb-6" style={{ color: '#4D5D53' }}>
               Gesture Cards
             </h3>
-            <div className="p-8 rounded-3xl shadow-lg border" style={{ backgroundColor: '#FDFBF8', borderColor: '#F8F2E6' }}>
+            <div className="p-8 rounded-xl shadow-lg border" style={{ backgroundColor: '#FDFBF8', borderColor: '#F8F2E6' }}>
               <div className="flex justify-center">
                 <LocalGestureCard>
                   <div className="text-center">
@@ -1541,7 +1593,7 @@ function App() {
             <h3 className="text-2xl font-semibold mb-6" style={{ color: '#4D5D53' }}>
               Pressure-Sensitive Buttons
             </h3>
-            <div className="p-8 rounded-3xl shadow-lg border" style={{ backgroundColor: '#FDFBF8', borderColor: '#F8F2E6' }}>
+            <div className="p-8 rounded-xl shadow-lg border" style={{ backgroundColor: '#FDFBF8', borderColor: '#F8F2E6' }}>
               <div className="flex justify-center">
                 <PressureButton onPressComplete={() => alert('Pressure action completed!')}>
                   Hold Me
@@ -1558,7 +1610,7 @@ function App() {
             <h3 className="text-2xl font-semibold mb-6" style={{ color: '#4D5D53' }}>
               Morphing Cards
             </h3>
-            <div className="p-8 rounded-3xl shadow-lg border" style={{ backgroundColor: '#FDFBF8', borderColor: '#F8F2E6' }}>
+            <div className="p-8 rounded-xl shadow-lg border" style={{ backgroundColor: '#FDFBF8', borderColor: '#F8F2E6' }}>
               <div className="flex flex-wrap gap-6 justify-center">
                 <MorphingCard>
                   <div className="text-center">
@@ -1586,7 +1638,7 @@ function App() {
           <h2 className="text-3xl font-semibold mb-8 text-center" style={{ color: '#4D5D53' }}>
             Color System
           </h2>
-          <div className="p-8 rounded-3xl shadow-lg border" style={{ backgroundColor: '#FDFBF8', borderColor: '#F8F2E6' }}>
+          <div className="p-8 rounded-xl shadow-lg border" style={{ backgroundColor: '#FDFBF8', borderColor: '#F8F2E6' }}>
             <ColorPalette />
           </div>
         </div>
@@ -1596,7 +1648,7 @@ function App() {
           <h2 className="text-3xl font-semibold mb-8 text-center" style={{ color: '#4D5D53' }}>
             Button Component
           </h2>
-          <div className="p-8 rounded-3xl shadow-lg border" style={{ backgroundColor: '#FDFBF8', borderColor: '#F8F2E6' }}>
+          <div className="p-8 rounded-xl shadow-lg border" style={{ backgroundColor: '#FDFBF8', borderColor: '#F8F2E6' }}>
             <div className="space-y-8">
               
               {/* Variants */}
@@ -1665,7 +1717,7 @@ function App() {
           <h2 className="text-3xl font-semibold mb-8 text-center" style={{ color: '#4D5D53' }}>
             Input Components
           </h2>
-          <div className="p-8 rounded-3xl shadow-lg border" style={{ backgroundColor: '#FDFBF8', borderColor: '#F8F2E6' }}>
+          <div className="p-8 rounded-xl shadow-lg border" style={{ backgroundColor: '#FDFBF8', borderColor: '#F8F2E6' }}>
             <div className="space-y-12">
               
               {/* Basic Input with Static Liquid Effects */}
@@ -1795,7 +1847,7 @@ function App() {
           <h2 className="text-3xl font-semibold mb-8 text-center" style={{ color: '#4D5D53' }}>
             Select Components
           </h2>
-          <div className="p-8 rounded-3xl shadow-lg border" style={{ backgroundColor: '#FDFBF8', borderColor: '#F8F2E6' }}>
+          <div className="p-8 rounded-xl shadow-lg border" style={{ backgroundColor: '#FDFBF8', borderColor: '#F8F2E6' }}>
             <div className="space-y-12">
               
               {/* Standard Select */}
@@ -1942,7 +1994,7 @@ function App() {
           <h2 className="text-3xl font-semibold mb-8 text-center" style={{ color: '#4D5D53' }}>
             Checkbox Components
           </h2>
-          <div className="p-8 rounded-3xl shadow-lg border" style={{ backgroundColor: '#FDFBF8', borderColor: '#F8F2E6' }}>
+          <div className="p-8 rounded-xl shadow-lg border" style={{ backgroundColor: '#FDFBF8', borderColor: '#F8F2E6' }}>
             <div className="space-y-12">
               
               {/* Standard Checkboxes */}
@@ -2055,7 +2107,7 @@ function App() {
           <h2 className="text-3xl font-semibold mb-8 text-center" style={{ color: '#4D5D53' }}>
             Radio Components
           </h2>
-          <div className="p-8 rounded-3xl shadow-lg border" style={{ backgroundColor: '#FDFBF8', borderColor: '#F8F2E6' }}>
+          <div className="p-8 rounded-xl shadow-lg border" style={{ backgroundColor: '#FDFBF8', borderColor: '#F8F2E6' }}>
             <div className="space-y-12">
               
               {/* Standard Radio Groups */}
@@ -2182,7 +2234,7 @@ function App() {
           <h2 className="text-3xl font-semibold mb-8 text-center" style={{ color: '#4D5D53' }}>
             Search Components
           </h2>
-          <div className="p-8 rounded-3xl shadow-lg border" style={{ backgroundColor: '#FDFBF8', borderColor: '#F8F2E6' }}>
+          <div className="p-8 rounded-xl shadow-lg border" style={{ backgroundColor: '#FDFBF8', borderColor: '#F8F2E6' }}>
             <div className="space-y-12">
               
               {/* Standard Search */}
@@ -2355,7 +2407,7 @@ function App() {
           <h2 className="text-3xl font-semibold mb-8 text-center" style={{ color: '#4D5D53' }}>
             Navigation & Interaction Components
           </h2>
-          <div className="p-8 rounded-3xl shadow-lg border" style={{ backgroundColor: '#FDFBF8', borderColor: '#F8F2E6' }}>
+          <div className="p-8 rounded-xl shadow-lg border" style={{ backgroundColor: '#FDFBF8', borderColor: '#F8F2E6' }}>
             <div className="space-y-12">
               
               {/* Navigation Examples */}
@@ -2574,7 +2626,7 @@ function App() {
                         label: 'Overview',
                         icon: '📋',
                         content: (
-                          <div className="p-6 rounded-2xl" style={{ backgroundColor: '#F8F2E6' }}>
+                          <div className="p-6 rounded-lg" style={{ backgroundColor: '#F8F2E6' }}>
                             <h4 className="text-lg font-semibold mb-2" style={{ color: '#4D5D53' }}>Overview Content</h4>
                             <p style={{ color: '#6B7A5E' }}>This is the overview tab with detailed information.</p>
                           </div>
@@ -2585,7 +2637,7 @@ function App() {
                         label: 'Features',
                         icon: '✨',
                         content: (
-                          <div className="p-6 rounded-2xl" style={{ backgroundColor: '#F8F2E6' }}>
+                          <div className="p-6 rounded-lg" style={{ backgroundColor: '#F8F2E6' }}>
                             <h4 className="text-lg font-semibold mb-2" style={{ color: '#4D5D53' }}>Features Content</h4>
                             <p style={{ color: '#6B7A5E' }}>Key features and capabilities are listed here.</p>
                           </div>
@@ -2596,7 +2648,7 @@ function App() {
                         label: 'Settings',
                         icon: '⚙️',
                         content: (
-                          <div className="p-6 rounded-2xl" style={{ backgroundColor: '#F8F2E6' }}>
+                          <div className="p-6 rounded-lg" style={{ backgroundColor: '#F8F2E6' }}>
                             <h4 className="text-lg font-semibold mb-2" style={{ color: '#4D5D53' }}>Settings Content</h4>
                             <p style={{ color: '#6B7A5E' }}>Configuration options and preferences.</p>
                           </div>
@@ -2607,7 +2659,7 @@ function App() {
                         label: 'Analytics',
                         icon: '📊',
                         content: (
-                          <div className="p-6 rounded-2xl" style={{ backgroundColor: '#F8F2E6' }}>
+                          <div className="p-6 rounded-lg" style={{ backgroundColor: '#F8F2E6' }}>
                             <h4 className="text-lg font-semibold mb-2" style={{ color: '#4D5D53' }}>Analytics Content</h4>
                             <p style={{ color: '#6B7A5E' }}>Data insights and performance metrics.</p>
                           </div>
@@ -2632,7 +2684,7 @@ function App() {
           <h2 className="text-3xl font-semibold mb-8 text-center" style={{ color: '#4D5D53' }}>
             Modal Components
           </h2>
-          <div className="p-8 rounded-3xl shadow-lg border" style={{ backgroundColor: '#FDFBF8', borderColor: '#F8F2E6' }}>
+          <div className="p-8 rounded-xl shadow-lg border" style={{ backgroundColor: '#FDFBF8', borderColor: '#F8F2E6' }}>
             <div className="space-y-12">
               
               {/* Standard vs Liquid Modals */}
@@ -2710,7 +2762,7 @@ function App() {
           <h2 className="text-3xl font-semibold mb-8 text-center" style={{ color: '#4D5D53' }}>
             Toast Notifications
           </h2>
-          <div className="p-8 rounded-3xl shadow-lg border" style={{ backgroundColor: '#FDFBF8', borderColor: '#F8F2E6' }}>
+          <div className="p-8 rounded-xl shadow-lg border" style={{ backgroundColor: '#FDFBF8', borderColor: '#F8F2E6' }}>
             <div className="space-y-12">
               
               {/* Toast Types */}
@@ -2770,7 +2822,7 @@ function App() {
           <h2 className="text-3xl font-semibold mb-8 text-center" style={{ color: '#4D5D53' }}>
             Tooltip Components
           </h2>
-          <div className="p-8 rounded-3xl shadow-lg border" style={{ backgroundColor: '#FDFBF8', borderColor: '#F8F2E6' }}>
+          <div className="p-8 rounded-xl shadow-lg border" style={{ backgroundColor: '#FDFBF8', borderColor: '#F8F2E6' }}>
             <div className="space-y-12">
               
               {/* Tooltip Positioning */}
@@ -2863,7 +2915,7 @@ function App() {
           <h2 className="text-3xl font-semibold mb-8 text-center" style={{ color: '#4D5D53' }}>
             Alert Components
           </h2>
-          <div className="p-8 rounded-3xl shadow-lg border" style={{ backgroundColor: '#FDFBF8', borderColor: '#F8F2E6' }}>
+          <div className="p-8 rounded-xl shadow-lg border" style={{ backgroundColor: '#FDFBF8', borderColor: '#F8F2E6' }}>
             <div className="space-y-12">
               
               {/* Alert Types */}
@@ -2944,7 +2996,7 @@ function App() {
           <h2 className="text-3xl font-semibold mb-8 text-center" style={{ color: '#4D5D53' }}>
             Card Components
           </h2>
-          <div className="p-8 rounded-3xl shadow-lg border" style={{ backgroundColor: '#FDFBF8', borderColor: '#F8F2E6' }}>
+          <div className="p-8 rounded-xl shadow-lg border" style={{ backgroundColor: '#FDFBF8', borderColor: '#F8F2E6' }}>
             <div className="space-y-12">
               
               {/* Standard Card Variants */}
@@ -3143,7 +3195,7 @@ function App() {
           <h2 className="text-3xl font-semibold mb-8 text-center" style={{ color: '#4D5D53' }}>
             Badge Components
           </h2>
-          <div className="p-8 rounded-3xl shadow-lg border" style={{ backgroundColor: '#FDFBF8', borderColor: '#F8F2E6' }}>
+          <div className="p-8 rounded-xl shadow-lg border" style={{ backgroundColor: '#FDFBF8', borderColor: '#F8F2E6' }}>
             <div className="space-y-12">
               
               {/* Standard Badge Variants */}
@@ -3466,7 +3518,7 @@ function App() {
           <h2 className="text-3xl font-semibold mb-8 text-center" style={{ color: '#4D5D53' }}>
             Avatar Components
           </h2>
-          <div className="p-8 rounded-3xl shadow-lg border" style={{ backgroundColor: '#FDFBF8', borderColor: '#F8F2E6' }}>
+          <div className="p-8 rounded-xl shadow-lg border" style={{ backgroundColor: '#FDFBF8', borderColor: '#F8F2E6' }}>
             <div className="space-y-12">
               
               {/* Standard Avatar */}
@@ -3766,7 +3818,7 @@ function App() {
           <h2 className="text-3xl font-semibold mb-8 text-center" style={{ color: '#4D5D53' }}>
             Table Components
           </h2>
-          <div className="p-8 rounded-3xl shadow-lg border" style={{ backgroundColor: '#FDFBF8', borderColor: '#F8F2E6' }}>
+          <div className="p-8 rounded-xl shadow-lg border" style={{ backgroundColor: '#FDFBF8', borderColor: '#F8F2E6' }}>
             <div className="space-y-12">
               
 
@@ -3975,7 +4027,7 @@ function App() {
           <h2 className="text-3xl font-semibold mb-8 text-center" style={{ color: '#4D5D53' }}>
             File Upload Components
           </h2>
-          <div className="p-8 rounded-3xl shadow-lg border" style={{ backgroundColor: '#FDFBF8', borderColor: '#F8F2E6' }}>
+          <div className="p-8 rounded-xl shadow-lg border" style={{ backgroundColor: '#FDFBF8', borderColor: '#F8F2E6' }}>
             <div className="space-y-12">
               
                              {/* Compact FileUpload */}
@@ -4033,7 +4085,7 @@ function App() {
           <h2 className="text-3xl font-semibold mb-8 text-center" style={{ color: '#4D5D53' }}>
             Progress Components
           </h2>
-          <div className="p-8 rounded-3xl shadow-lg border" style={{ backgroundColor: '#FDFBF8', borderColor: '#F8F2E6' }}>
+          <div className="p-8 rounded-xl shadow-lg border" style={{ backgroundColor: '#FDFBF8', borderColor: '#F8F2E6' }}>
             <div className="space-y-12">
               
               {/* Standard Progress */}
@@ -4120,7 +4172,7 @@ function App() {
           <h2 className="text-3xl font-semibold mb-8 text-center" style={{ color: '#4D5D53' }}>
             Accordion Components
           </h2>
-          <div className="p-8 rounded-3xl shadow-lg border" style={{ backgroundColor: '#FDFBF8', borderColor: '#F8F2E6' }}>
+          <div className="p-8 rounded-xl shadow-lg border" style={{ backgroundColor: '#FDFBF8', borderColor: '#F8F2E6' }}>
             <div className="space-y-12">
               
               {/* Standard Accordion */}
@@ -4255,7 +4307,7 @@ function App() {
           <h2 className="text-3xl font-semibold mb-8 text-center" style={{ color: '#4D5D53' }}>
             Stepper Components
           </h2>
-          <div className="p-8 rounded-3xl shadow-lg border" style={{ backgroundColor: '#FDFBF8', borderColor: '#F8F2E6' }}>
+          <div className="p-8 rounded-xl shadow-lg border" style={{ backgroundColor: '#FDFBF8', borderColor: '#F8F2E6' }}>
             <div className="space-y-12">
               
               {/* Standard Stepper */}

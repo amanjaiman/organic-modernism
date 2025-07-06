@@ -83,19 +83,19 @@ export const FileUpload: React.FC<FileUploadProps> = ({
         return {
           background: 'rgba(248, 242, 230, 0.5)',
           border: '1px solid #E8ECDE',
-          borderRadius: '12px'
+          borderRadius: '6px'
         }
       case 'ghost':
         return {
           background: 'transparent',
           border: '2px dashed #BBC9C2',
-          borderRadius: '16px'
+          borderRadius: '8px'
         }
       default:
         return {
           background: 'rgba(248, 242, 230, 0.5)',
           border: '1px solid #E8ECDE',
-          borderRadius: '12px'
+          borderRadius: '6px'
         }
     }
   }
@@ -307,7 +307,7 @@ export const FileUpload: React.FC<FileUploadProps> = ({
         {/* Browse Button */}
         <button
           type="button"
-          className="px-4 py-2 rounded-lg font-medium transition-all duration-200 hover:scale-105"
+          className="px-4 py-2 rounded font-medium transition-all duration-200 hover:scale-105"
           style={{
             backgroundColor: '#78866B',
             color: 'white',
@@ -350,7 +350,7 @@ export const FileUpload: React.FC<FileUploadProps> = ({
           {files.map((fileItem, index) => (
             <div
               key={index}
-              className="flex items-center justify-between p-3 rounded-lg border transition-all duration-200 hover:shadow-md"
+              className="flex items-center justify-between p-3 rounded border transition-all duration-200 hover:shadow-md"
               style={{
                 backgroundColor: 'rgba(250, 249, 245, 0.8)',
                 borderColor: '#E8ECDE'
@@ -425,7 +425,7 @@ export const FileUpload: React.FC<FileUploadProps> = ({
               type="button"
               onClick={uploadFiles}
               disabled={isUploading}
-              className="w-full py-3 px-4 rounded-lg font-medium transition-all duration-200 hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed"
+              className="w-full py-3 px-4 rounded font-medium transition-all duration-200 hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed"
               style={{
                 backgroundColor: '#78866B',
                 color: 'white',

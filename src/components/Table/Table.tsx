@@ -158,7 +158,7 @@ export const Table = <T extends Record<string, any>>({
     return (
       <div className={`w-full ${className}`}>
         <div 
-          className="text-center py-16 rounded-2xl border-2 border-dashed"
+          className="text-center py-16 rounded-lg border-2 border-dashed"
           style={{
             color: '#8F9779',
             borderColor: '#E8ECDE',
@@ -174,7 +174,7 @@ export const Table = <T extends Record<string, any>>({
 
   return (
     <div className={`w-full ${className}`}>
-      <div className={`${responsive ? 'overflow-x-auto' : ''} rounded-2xl border shadow-sm`} style={{ borderColor: '#E8ECDE' }}>
+      <div className={`${responsive ? 'overflow-x-auto' : ''} rounded-lg border shadow-sm`} style={{ borderColor: '#E8ECDE' }}>
         <table className="w-full border-collapse">
           <thead 
             className={`${stickyHeader ? 'sticky top-0 z-10' : ''}`}
@@ -198,7 +198,7 @@ export const Table = <T extends Record<string, any>>({
                     type="checkbox"
                     checked={selectAll}
                     onChange={handleSelectAll}
-                    className="w-4 h-4 rounded border-2 border-stone-300 focus:outline-none focus:ring-2 focus:ring-stone-400"
+                    className="w-4 h-4 rounded-sm border-2 border-stone-300 focus:outline-none focus:ring-2 focus:ring-stone-400"
                     style={{
                       accentColor: '#78866B'
                     }}
@@ -269,7 +269,7 @@ export const Table = <T extends Record<string, any>>({
                       type="checkbox"
                       checked={selectedRows.has(index)}
                       onChange={() => handleRowSelect(index)}
-                      className="w-4 h-4 rounded border-2 border-stone-300 focus:outline-none focus:ring-2 focus:ring-stone-400"
+                      className="w-4 h-4 rounded-sm border-2 border-stone-300 focus:outline-none focus:ring-2 focus:ring-stone-400"
                       style={{
                         accentColor: '#78866B'
                       }}

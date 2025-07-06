@@ -111,7 +111,7 @@ const Toast: React.FC<ToastProps> = ({
     <div
       className={`
         relative max-w-sm w-full
-        rounded-2xl shadow-lg shadow-stone-900/10 border
+        rounded-lg shadow-lg shadow-stone-900/10 border
         p-4 transition-all duration-300 ease-out
         ${isVisible && !isExiting ? 'transform translate-x-0 opacity-100' : 'transform translate-x-full opacity-0'}
         ${className}
@@ -124,7 +124,7 @@ const Toast: React.FC<ToastProps> = ({
       <div className="flex items-start space-x-3">
         {/* Icon */}
         <div 
-          className="flex-shrink-0 w-8 h-8 rounded-xl flex items-center justify-center"
+          className="flex-shrink-0 w-8 h-8 rounded-md flex items-center justify-center"
           style={{ backgroundColor: styles.iconBgColor }}
         >
           <span style={{ color: styles.iconColor }}>
@@ -153,7 +153,7 @@ const Toast: React.FC<ToastProps> = ({
         {/* Close button */}
         <button
           onClick={handleClose}
-          className="flex-shrink-0 p-1 rounded-lg transition-all duration-200 ease-out
+          className="flex-shrink-0 p-1 rounded transition-all duration-200 ease-out
             focus:outline-none focus:ring-2"
           style={{
             color: styles.iconColor,
@@ -183,7 +183,7 @@ const Toast: React.FC<ToastProps> = ({
 
       {/* Progress bar for auto-dismiss */}
       {duration > 0 && (
-        <div className="absolute bottom-0 left-0 right-0 h-1 rounded-b-2xl overflow-hidden" style={{ backgroundColor: styles.progressColor }}>
+        <div className="absolute bottom-0 left-0 right-0 h-1 rounded-b-lg overflow-hidden" style={{ backgroundColor: styles.progressColor }}>
           <div 
             className="h-full transition-all ease-linear"
             style={{

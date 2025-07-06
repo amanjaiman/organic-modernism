@@ -180,7 +180,7 @@ const Tooltip: React.FC<TooltipProps> = ({
         <div
           ref={tooltipRef}
           className={`
-            fixed z-50 px-3 py-2 text-sm rounded-xl backdrop-blur-sm
+            fixed z-50 px-3 py-2 text-sm rounded-md backdrop-blur-sm
             shadow-lg shadow-sage-900/20 transition-opacity transition-transform duration-200 ease-out
             ${getAnimationClasses(position, isPositioned)}
             ${className}

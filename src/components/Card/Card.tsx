@@ -69,7 +69,7 @@ export const Card: React.FC<CardProps> = ({
   const roundings = {
     sm: 'rounded-xl',
     md: 'rounded-2xl',
-    lg: 'rounded-3xl',
+    lg: 'rounded-xl',
     xl: 'rounded-[2rem]'
   }
   

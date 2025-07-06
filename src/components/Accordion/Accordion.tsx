@@ -49,9 +49,9 @@ export const Accordion: React.FC<AccordionProps> = ({
 
   const variantClasses = {
     default: 'border-b border-stone-200',
-    bordered: 'border border-stone-200 rounded-lg mb-2',
-    filled: 'bg-stone-50 border border-stone-200 rounded-lg mb-2',
-    ghost: 'hover:bg-stone-50 rounded-lg mb-1',
+    bordered: 'border border-stone-200 rounded mb-2',
+    filled: 'bg-stone-50 border border-stone-200 rounded mb-2',
+    ghost: 'hover:bg-stone-50 rounded mb-1',
   }
 
   const sizeClasses = {

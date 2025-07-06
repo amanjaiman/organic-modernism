@@ -88,7 +88,7 @@ const LiquidModal: React.FC<LiquidModalProps> = ({
         className={`
           relative w-full ${sizeClasses[size]} 
           bg-gradient-to-br from-stone-50 to-stone-100/80
-          rounded-2xl shadow-2xl shadow-stone-900/10
+          rounded-lg shadow-2xl shadow-stone-900/10
           border border-stone-200/50
           transform transition-all duration-300 ease-out
           overflow-hidden
@@ -132,12 +132,12 @@ const LiquidModal: React.FC<LiquidModalProps> = ({
             {closable && (
               <button
                 onClick={handleClose}
-                className="relative p-2 rounded-xl text-stone-500 hover:text-stone-700 
+                className="relative p-2 rounded-md text-stone-500 hover:text-stone-700 
                   transition-all duration-200 ease-out group
                   focus:outline-none focus:ring-2 focus:ring-sage-400/50"
                 aria-label="Close modal"
               >
-                <div className="absolute inset-0 rounded-xl bg-gradient-to-r from-sage-200/0 to-sage-200/50 
+                <div className="absolute inset-0 rounded-md bg-gradient-to-r from-sage-200/0 to-sage-200/50 
                   opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
                 <svg className="relative w-5 h-5 transform group-hover:rotate-90 transition-transform duration-200" 
                   fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -155,7 +155,7 @@ const LiquidModal: React.FC<LiquidModalProps> = ({
 
         {/* Animated border effect */}
         <div 
-          className="absolute inset-0 rounded-2xl border-2 border-sage-300/20 pointer-events-none"
+          className="absolute inset-0 rounded-lg border-2 border-sage-300/20 pointer-events-none"
           style={{
             background: `
               conic-gradient(from 0deg at 50% 50%, 

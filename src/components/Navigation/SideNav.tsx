@@ -96,7 +96,7 @@ const SideNavItemComponent: React.FC<{
         style={{
           marginLeft: collapsed ? '0' : `${level * 12}px`,
           marginRight: '8px',
-          borderRadius: '0px 12px 12px 0px',
+                      borderRadius: '0px 6px 6px 0px',
           transition: 'all 0.3s cubic-bezier(0.23, 1, 0.32, 1)',
           ...getItemStyles(),
           // Force border-left to ensure it's not overridden
@@ -282,7 +282,7 @@ export const SideNav: React.FC<SideNavProps> = ({
           {!internalCollapsed && (
             <div className="flex items-center space-x-3">
               <div 
-                className="w-8 h-8 rounded-xl flex items-center justify-center font-bold text-sm shadow-sm transition-all duration-300"
+                className="w-8 h-8 rounded-md flex items-center justify-center font-bold text-sm shadow-sm transition-all duration-300"
                 style={{ 
                   backgroundColor: '#78866B', 
                   color: 'white',
@@ -303,7 +303,7 @@ export const SideNav: React.FC<SideNavProps> = ({
             <button
               onClick={handleCollapseToggle}
               className={`
-                p-2 rounded-xl transition-all duration-300 hover:scale-105 shadow-sm
+                p-2 rounded-md transition-all duration-300 hover:scale-105 shadow-sm
                 ${internalCollapsed ? 'mx-auto' : ''}
               `}
               style={{

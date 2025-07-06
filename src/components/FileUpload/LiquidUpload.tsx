@@ -104,7 +104,7 @@ export const LiquidUpload: React.FC<LiquidUploadProps> = ({
       onDragEnter={() => setIsDragging(true)}
       onDragLeave={() => setIsDragging(false)}
       style={{
-        borderRadius: '28px',
+                  borderRadius: '14px',
         padding: '20px',
         background: getLiquidBackground(),
         boxShadow: isHovered || isDragging
@@ -118,7 +118,7 @@ export const LiquidUpload: React.FC<LiquidUploadProps> = ({
     >
       {/* Liquid overlay with morphing gradient */}
       <div
-        className="absolute inset-0 rounded-3xl pointer-events-none"
+        className="absolute inset-0 rounded-xl pointer-events-none"
         style={{
           background: isHovered
             ? `conic-gradient(from ${45 + mousePos.x * 0.8}deg at ${mousePos.x}% ${mousePos.y}%, 
@@ -134,7 +134,7 @@ export const LiquidUpload: React.FC<LiquidUploadProps> = ({
 
       {/* Morphing border effect */}
       <div
-        className="absolute inset-0 rounded-3xl pointer-events-none"
+        className="absolute inset-0 rounded-xl pointer-events-none"
         style={{
           background: isHovered
             ? `linear-gradient(${45 + mousePos.x * 0.5 + Math.sin(morphPhase) * 15}deg, 
@@ -203,7 +203,7 @@ export const LiquidUpload: React.FC<LiquidUploadProps> = ({
 
       {/* Morphing glow effect */}
       <div
-        className="absolute inset-0 rounded-3xl pointer-events-none"
+        className="absolute inset-0 rounded-xl pointer-events-none"
         style={{
           background: isHovered
             ? `radial-gradient(ellipse at ${mousePos.x}% ${mousePos.y}%, 

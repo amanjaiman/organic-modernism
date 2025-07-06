@@ -209,7 +209,7 @@ const FloatingNavItemComponent: React.FC<{
         href={item.href}
         onClick={handleClick}
         className={`
-          relative flex items-center ${(!isCollapsed && displayMode === 'text') || (isCollapsed === false && displayMode === 'text') ? 'justify-start px-3' : 'justify-center'} rounded-xl transition-all duration-300 ease-out
+          relative flex items-center ${(!isCollapsed && displayMode === 'text') || (isCollapsed === false && displayMode === 'text') ? 'justify-start px-3' : 'justify-center'} rounded-md transition-all duration-300 ease-out
           ${item.disabled ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer'}
           ${!item.disabled && !item.active ? 'hover:bg-[#F8F2E6] hover:text-[#4D5D53] hover:shadow-[0_6px_20px_rgba(120,134,107,0.12),0_3px_10px_rgba(120,134,107,0.08)] hover:-translate-y-0.5 hover:scale-105' : ''}
         `}
@@ -266,7 +266,7 @@ const FloatingNavItemComponent: React.FC<{
         {/* Liquid effect overlay - will be handled by CSS hover */}
         {variant === 'liquid' && (
           <div 
-            className="absolute inset-0 rounded-xl pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+            className="absolute inset-0 rounded-md pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-300"
             style={{
               background: `radial-gradient(circle at ${liquidOffset.x}% ${liquidOffset.y}%, rgba(120, 134, 107, 0.08) 0%, transparent 70%)`
             }}
@@ -277,7 +277,7 @@ const FloatingNavItemComponent: React.FC<{
       {/* Tooltip - only show in icon mode or if there's a specific tooltip */}
       {displayMode === 'icon' && (item.tooltip || item.label) && (
         <div 
-          className="absolute z-10 px-2.5 py-1.5 text-xs font-medium rounded-lg shadow-lg pointer-events-none opacity-0 group-hover:opacity-100 transition-all duration-300 whitespace-nowrap"
+          className="absolute z-10 px-2.5 py-1.5 text-xs font-medium rounded shadow-lg pointer-events-none opacity-0 group-hover:opacity-100 transition-all duration-300 whitespace-nowrap"
           style={{
             backgroundColor: '#4D5D53',
             color: 'white',
@@ -306,7 +306,7 @@ const FloatingNavItemComponent: React.FC<{
       {/* Tooltip for text mode - only show if there's a specific tooltip different from label */}
       {displayMode === 'text' && item.tooltip && item.tooltip !== item.label && (
         <div 
-          className="absolute z-10 px-2.5 py-1.5 text-xs font-medium rounded-lg shadow-lg pointer-events-none opacity-0 group-hover:opacity-100 transition-all duration-300 whitespace-nowrap"
+          className="absolute z-10 px-2.5 py-1.5 text-xs font-medium rounded shadow-lg pointer-events-none opacity-0 group-hover:opacity-100 transition-all duration-300 whitespace-nowrap"
           style={{
             backgroundColor: '#4D5D53',
             color: 'white',
@@ -401,7 +401,7 @@ export const FloatingNav: React.FC<FloatingNavProps> = ({
       `}
       style={{
         padding: getSpacing(),
-        borderRadius: '16px',
+        borderRadius: '8px',
         boxShadow: side === 'left' 
           ? '4px 0 20px rgba(0, 0, 0, 0.08), 2px 0 8px rgba(0, 0, 0, 0.04)' 
           : '-4px 0 20px rgba(0, 0, 0, 0.08), -2px 0 8px rgba(0, 0, 0, 0.04)',

@@ -122,7 +122,7 @@ const GestureTab: React.FC<{
       style={{
         backgroundColor: isActive ? '#78866B' : 'transparent',
         color: isActive ? 'white' : '#4D5D53',
-        borderRadius: '16px',
+                    borderRadius: '8px',
         transform: `translate(${dragOffset.x * 0.1}px, ${dragOffset.y * 0.1}px) rotateX(${dragOffset.y * 0.1}deg) rotateY(${dragOffset.x * 0.1}deg) scale(${isPressed ? 0.95 : 1})`,
         transition: isDragging ? 'none' : 'transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94)',
         border: '1px solid',
@@ -266,7 +266,7 @@ export const Tabs: React.FC<TabsProps> = ({
                   onClick={() => handleTabClick(tab.id)}
                   disabled={tab.disabled}
                   className={`
-                    relative font-medium transition-all duration-200 flex items-center space-x-2 rounded-2xl
+                    relative font-medium transition-all duration-200 flex items-center space-x-2 rounded-lg
                     ${size === 'sm' ? 'px-3 py-2 text-sm' : ''}
                     ${size === 'md' ? 'px-4 py-3 text-base' : ''}
                     ${size === 'lg' ? 'px-6 py-4 text-lg' : ''}

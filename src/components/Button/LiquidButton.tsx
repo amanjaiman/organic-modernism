@@ -16,7 +16,7 @@ export const LiquidButton: React.FC<LiquidButtonProps> = ({
   
   return (
     <button
-      className={`relative px-8 py-4 text-white font-medium text-lg rounded-3xl overflow-hidden cursor-pointer border-none focus:outline-none ${className}`}
+      className={`relative px-8 py-4 text-white font-medium text-lg rounded-xl overflow-hidden cursor-pointer border-none focus:outline-none ${className}`}
       style={{
         background: `linear-gradient(135deg, #78866B, #8F9779)`,
         transition: 'all 0.6s cubic-bezier(0.23, 1, 0.32, 1)',

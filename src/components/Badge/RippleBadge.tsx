@@ -167,28 +167,28 @@ const RippleBadge: React.FC<RippleBadgeProps> = ({
         return {
           fontSize: '0.75rem',
           padding: '0.25rem 0.5rem',
-          borderRadius: '0.5rem',
+          borderRadius: 'var(--border-radius-active-lg)',
           minHeight: '1.5rem'
         }
       case 'md':
         return {
           fontSize: '0.875rem',
           padding: '0.375rem 0.75rem',
-          borderRadius: '0.75rem',
+          borderRadius: 'var(--border-radius-active-xl)',
           minHeight: '2rem'
         }
       case 'lg':
         return {
           fontSize: '1rem',
           padding: '0.5rem 1rem',
-          borderRadius: '1rem',
+          borderRadius: 'var(--border-radius-active-2xl)',
           minHeight: '2.5rem'
         }
       default:
         return {
           fontSize: '0.875rem',
           padding: '0.375rem 0.75rem',
-          borderRadius: '0.75rem',
+          borderRadius: 'var(--border-radius-active-xl)',
           minHeight: '2rem'
         }
     }

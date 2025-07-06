@@ -226,7 +226,7 @@ export const Search: React.FC<SearchProps> = ({
           {/* Liquid glow effect */}
           {isFocused && !disabled && (
             <div
-              className="absolute inset-0 pointer-events-none rounded-2xl"
+              className="absolute inset-0 pointer-events-none rounded-lg"
               style={{
                 background: `radial-gradient(circle at 30% 40%, rgba(120, 134, 107, 0.12) 0%, transparent 70%)`,
                 transition: 'opacity 0.5s ease-out',
@@ -242,14 +242,14 @@ export const Search: React.FC<SearchProps> = ({
             placeholder={placeholder}
             disabled={disabled}
             className={`
-              relative w-full border-2 rounded-2xl transition-all duration-500 ease-out
+              relative w-full border-2 rounded-lg transition-all duration-500 ease-out
               focus:outline-none pl-12 pr-12
               ${sizes[size].input}
               ${disabled ? 'cursor-not-allowed' : ''}
             `}
             style={{
               ...getInputStyles(),
-              borderRadius: '16px',
+              borderRadius: '8px',
               transition: 'all 0.5s cubic-bezier(0.23, 1, 0.32, 1)'
             }}
             onChange={handleInputChange}
@@ -322,7 +322,7 @@ export const Search: React.FC<SearchProps> = ({
             ref={dropdownRef}
             className={`
               absolute top-full left-0 right-0 mt-2 bg-white border border-sage-200 
-              rounded-2xl shadow-lg z-50 max-h-80 overflow-y-auto
+              rounded-lg shadow-lg z-50 max-h-80 overflow-y-auto
               ${sizes[size].dropdown}
             `}
             style={{
@@ -366,7 +366,7 @@ export const Search: React.FC<SearchProps> = ({
                       key={search}
                       onClick={() => handleItemSelect({ type: 'recent', text: search })}
                       className={`
-                        w-full text-left px-2 py-2 rounded-lg transition-all duration-200
+                        w-full text-left px-2 py-2 rounded transition-all duration-200
                         ${highlightedIndex === itemIndex 
                           ? 'bg-sage-50 text-sage-900' 
                           : 'text-sage-700 hover:bg-sage-50'}
@@ -397,7 +397,7 @@ export const Search: React.FC<SearchProps> = ({
                       key={suggestion.id}
                       onClick={() => handleItemSelect({ type: 'suggestion', ...suggestion })}
                       className={`
-                        w-full text-left px-2 py-2 rounded-lg transition-all duration-200
+                        w-full text-left px-2 py-2 rounded transition-all duration-200
                         ${highlightedIndex === itemIndex 
                           ? 'bg-sage-50 text-sage-900' 
                           : 'text-sage-700 hover:bg-sage-50'}

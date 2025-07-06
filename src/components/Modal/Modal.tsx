@@ -68,7 +68,7 @@ const Modal: React.FC<ModalProps> = ({
         className={`
           relative w-full ${sizeClasses[size]} 
           bg-gradient-to-br from-stone-50 to-stone-100/80
-          rounded-2xl shadow-2xl shadow-stone-900/10
+          rounded-lg shadow-2xl shadow-stone-900/10
           border border-stone-200/50
           transform transition-all duration-300 ease-out
           ${isOpen ? 'scale-100 translate-y-0' : 'scale-95 translate-y-4'}
@@ -86,7 +86,7 @@ const Modal: React.FC<ModalProps> = ({
             {closable && (
               <button
                 onClick={onClose}
-                className="p-2 rounded-xl text-stone-500 hover:text-stone-700 
+                className="p-2 rounded-md text-stone-500 hover:text-stone-700 
                   hover:bg-stone-100/50 transition-all duration-200 ease-out
                   focus:outline-none focus:ring-2 focus:ring-sage-400/50"
                 aria-label="Close modal"

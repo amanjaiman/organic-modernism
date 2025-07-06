@@ -130,7 +130,7 @@ const Alert: React.FC<AlertProps> = ({
         {dismissible && (
           <button
             onClick={handleDismiss}
-            className="flex-shrink-0 p-1 rounded-lg transition-all duration-200 ease-out
+            className="flex-shrink-0 p-1 rounded transition-all duration-200 ease-out
               focus:outline-none focus:ring-2 focus:ring-offset-2"
             style={{ 
               color: styles.iconColor,

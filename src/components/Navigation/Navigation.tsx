@@ -82,7 +82,7 @@ const NavigationDropdown: React.FC<{
       <button
         onClick={handleMainClick}
         className={`
-          flex items-center space-x-1 px-4 py-2 rounded-2xl transition-all duration-200 font-medium
+          flex items-center space-x-1 px-4 py-2 rounded-lg transition-all duration-200 font-medium
           ${item.active ? 'font-semibold' : ''}
           ${item.disabled ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer hover:scale-105'}
         `}
@@ -112,7 +112,7 @@ const NavigationDropdown: React.FC<{
       {/* Dropdown Menu */}
       {item.children && item.children.length > 0 && isOpen && (
         <div 
-          className="absolute top-full left-0 mt-2 rounded-2xl shadow-xl border min-w-max"
+          className="absolute top-full left-0 mt-2 rounded-lg shadow-xl border min-w-max"
           style={{ 
             backgroundColor: '#FDFBF8',
             borderColor: '#F3ECE0',
@@ -182,7 +182,7 @@ const LiquidNavigationItem: React.FC<{
       href={item.href}
       onClick={handleClick}
       className={`
-        relative px-4 py-2 rounded-2xl transition-all duration-300 overflow-hidden
+        relative px-4 py-2 rounded-lg transition-all duration-300 overflow-hidden
         ${item.active ? 'font-semibold' : 'font-medium'}
         ${item.disabled ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer'}
         ${isHovered ? 'scale-105' : ''}
@@ -242,7 +242,7 @@ const TimeAwareNavigation: React.FC<{
             if (onItemClick) onItemClick(item)
           }}
           className={`
-            px-4 py-2 rounded-2xl transition-all duration-300 font-medium
+            px-4 py-2 rounded-lg transition-all duration-300 font-medium
             ${item.active ? 'font-semibold' : ''}
             ${item.disabled ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer hover:scale-105'}
           `}
@@ -327,7 +327,7 @@ const MobileMenu: React.FC<{
                   onClose()
                 }}
                 className={`
-                  w-full text-left px-4 py-3 rounded-2xl transition-all duration-200
+                  w-full text-left px-4 py-3 rounded-lg transition-all duration-200
                   ${item.active ? 'font-semibold' : 'font-medium'}
                   ${item.disabled ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer hover:scale-105'}
                 `}
@@ -430,7 +430,7 @@ export const Navigation: React.FC<NavigationProps> = ({
                           if (onItemClick) onItemClick(item)
                         }}
                         className={`
-                          px-4 py-2 rounded-2xl transition-all duration-200 font-medium
+                          px-4 py-2 rounded-lg transition-all duration-200 font-medium
                           ${item.active ? 'font-semibold' : ''}
                           ${item.disabled ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer hover:scale-105 hover:bg-opacity-10'}
                         `}
@@ -451,7 +451,7 @@ export const Navigation: React.FC<NavigationProps> = ({
 
           {/* Mobile Menu Button */}
           <button
-            className="lg:hidden p-2 rounded-2xl transition-all duration-200 hover:bg-opacity-10"
+            className="lg:hidden p-2 rounded-lg transition-all duration-200 hover:bg-opacity-10"
             style={{ color: '#6B7A5E' }}
             onClick={() => setIsMobileMenuOpen(true)}
           >
